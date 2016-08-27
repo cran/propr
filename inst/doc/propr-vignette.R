@@ -6,11 +6,11 @@ X <- data.frame(a=(1:N), b=(1:N) * rnorm(N, 10, 0.1),
 
 ## ---- results = "hide"---------------------------------------------------
 library(propr)
-phi <- phit(X, symmetrize = FALSE)
+phi <- phit(X, symmetrize = TRUE)
 rho <- perb(X, ivar = 0)
 
 ## ------------------------------------------------------------------------
-rho99 <- rho[rho$prop > .99, ]
+rho99 <- rho[">", .99]
 rho99@pairs
 
 ## ------------------------------------------------------------------------
@@ -18,15 +18,20 @@ rhoab <- subset(rho, select = c("a", "b"))
 rhoab@matrix
 
 ## ------------------------------------------------------------------------
-set.seed(12345)
-randomNum <- sample(1:1000, size = 200 * 22, replace = TRUE)
-counts <- matrix(randomNum, nrow = 22, ncol = 200)
-prop <- phit(counts, symmetrize = FALSE, iter = 50, iterSize = 50)
-sum(prop$pval < .01)
-sum(prop$fdr < .01)
+coord <- propr:::indexToCoord(rho99@pairs, N = nrow(rho99@matrix))
+coord.merge <- sort(union(coord[[1]], coord[[2]]))
+subset(rho, select = coord.merge)
+
+## ---- eval = FALSE-------------------------------------------------------
+#  set.seed(12345)
+#  randomNum <- sample(1:1000, size = 200 * 22, replace = TRUE)
+#  counts <- matrix(randomNum, nrow = 22, ncol = 200)
+#  prop <- phit(counts, symmetrize = FALSE, iter = 50, iterSize = 50)
+#  sum(prop$pval < .01)
+#  sum(prop$fdr < .01)
 
 ## ---- results = "hide", fig.show = "hold", fig.keep = "last"-------------
-plot(rho[rho$prop > .99, ])
+plot(rho99)
 
 ## ------------------------------------------------------------------------
 N <- 100
@@ -67,6 +72,10 @@ phit(X)@matrix
 perb(Y[, 1:4])@matrix
 perb(X)@matrix
 
+## ------------------------------------------------------------------------
+cor(Y)
+perb(Y)@matrix
+
 ## ---- fig.show = "hold"--------------------------------------------------
 pairs(propr:::proprALR(Y, ivar = 5))
 pairs(X[, 1:4])
@@ -84,6 +93,6 @@ perb(X, ivar = 1)@matrix
 dendrogram(perb(X, ivar = 1))
 
 ## ------------------------------------------------------------------------
-perb(Y[, 2:5], ivar = 4)@pairs
-perb(X, ivar = 5)@pairs
+perb(Y[, 2:5], ivar = 4)@matrix
+perb(X, ivar = 5)@matrix
 
