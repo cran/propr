@@ -18,9 +18,7 @@ rhoab <- subset(rho, select = c("a", "b"))
 rhoab@matrix
 
 ## ------------------------------------------------------------------------
-coord <- propr:::indexToCoord(rho99@pairs, N = nrow(rho99@matrix))
-coord.merge <- sort(union(coord[[1]], coord[[2]]))
-subset(rho, select = coord.merge)
+simplify(rho99)
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  set.seed(12345)
