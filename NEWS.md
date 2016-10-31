@@ -1,10 +1,46 @@
+## propr 2.0.4
+---------------------
+* New visualization tools
+  * `slate` returns a table of VLR, VLS, and rho
+  * `bokeh` plots pairs by the individual variances
+* Modified index-naive plot functions
+  * Now uses `fastcluster::hclust` implementation
+  * New `prompt` argument turns off big data prompt
+  * `prism` now depends on `slate` function
+* Modified `dendrogram` function
+  * Now uses `fastcluster::hclust` implementation
+  * Now returns an `hclust` object
+
+## propr 2.0.3
+---------------------
+* Modified `subset` method
+  * Argument `select` now correctly rearranges features
+* Modified `rhoRcpp` function
+  * Now accommodates new `perb` function feature
+* Modified `perb` function
+  * New `select` argument returns subsetted matrix
+  * This subset does not alter values of rho
+
+## propr 2.0.2
+---------------------
+* Modified `perb` function
+  * User can now specify name of `ivar` reference
+* Altered `image` method
+  * Now includes dendrogram with heatmap
+  * No longer uses index pairs
+  * Now called `snapshot`
+* New `prism` function
+* New `bucket` function
+* New `mds` function
+* New vignette
+
 ## propr 2.0.1
 ---------------------
 * Modified `phit`, `perb` functions
-  * These functions now force zero removal.
+  * These functions now force zero removal
 * New `simplify` function
-  * Subsets `propr` object based on index in `@pairs` slot.
-  * Returns an updated index.
+  * Subsets `propr` object based on index in `@pairs` slot
+  * Returns an updated index
 
 ## propr 2.0.0
 ---------------------

@@ -4,7 +4,7 @@ Quick start
 
 Welcome to the `propr` GitHub page!
 
-The bioinformatic evaluation of gene co-expression often begins with correlation-based analyses. However, this approach lacks statistical validity when applied to relative count data. This includes, for example, those biological data produced by microarray assays or high-throughput RNA-sequencing. This package provides a set of functions for measuring dependence between relative features using compositional data analysis. Specifically, this package implements two measures of *proportionality*, φ and ρ, introduced in Lovell 2015 and expounded in Erb 2016. You can get started with `propr` by installing the most up-to-date version of this package directly from GitHub.
+The bioinformatic evaluation of gene co-expression often begins with correlation-based analyses. However, this approach lacks statistical validity when applied to relative count data. This includes, for example, biological data produced by high-throughput RNA-sequencing. This package provides a set of functions for measuring dependence between relative features using compositional data analysis. Specifically, this package implements two measures of *proportionality*, φ and ρ, introduced in Lovell 2015 and expounded in Erb 2016. You can get started with `propr` by installing the most up-to-date version of this package directly from GitHub.
 
 ``` r
 library(devtools)
@@ -74,6 +74,6 @@ rho99@pairs
 
 ### References
 
-1.  Erb, I. & Notredame, C. 2016. How should we measure proportionality on relative gene expression data? Theory Biosci.
+1.  Erb, Ionas, and Cedric Notredame. “How Should We Measure Proportionality on Relative Gene Expression Data?” Theory in Biosciences = Theorie in Den Biowissenschaften 135, no. 1–2 (June 2016): 21–36. .
 
-2.  Lovell, D. et al. 2015. Proportionality: A Valid Alternative to Correlation for Relative Data. PLoS Comput Biol 11.
+2.  Lovell, David, Vera Pawlowsky-Glahn, Juan José Egozcue, Samuel Marguerat, and Jürg Bähler. “Proportionality: A Valid Alternative to Correlation for Relative Data.” PLoS Computational Biology 11, no. 3 (March 2015): e1004075. .
