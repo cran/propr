@@ -1,3 +1,85 @@
+## propr 2.1.1
+---------------------
+* Modified `propr` Class
+  * Merged `propr-class` and `propr` documentation
+* Modified `phit`, `perb` functions
+  * Merged `phit` and `perb` documentation
+  * New `phis` function returns `(1 - rho) / (1 + rho)`
+  * NAs in count matrix now throw error
+  * 0s now replaced with 1s
+* Modified visualization tools
+  * Merged documentation
+
+## propr 2.1.0
+---------------------
+* Modified `[` method
+  * Now joins newly indexed pairs with any existing index
+* New `cytescape` function
+  * Uses `@pairs` slot to build an interaction network
+
+## propr 2.0.9
+---------------------
+* Modified visualization tools
+  * Courtesy `prompt` argument extended to `smear` and `dendrogram`
+  * Improved error handling and documentation
+* Modified `abstract` function
+  * New `dt` argument indexes significant results in `@pairs`
+* Modified `simplify` function
+  * Now builds index of lower left triangle of matrix
+* New `adjacent` function
+  * Uses `@pairs` slot to build an adjacency matrix
+
+## propr 2.0.8
+---------------------
+* Modified visualization tools
+  * `bucket` now depends on `slate` function
+* Modified backend code
+  * New `coordToIndex` performs inverse of `indexToCoord`
+* Modified `prop2prob` function
+  * Return p-values as a sorted `data.table`
+  * Now lets user select `method` for p-value adjustment
+  * New `prompt` argument turns off big data prompt
+  * Fix pass by reference bug in `linRcpp`
+* New `abstract` function
+  * Combines two `propr` objects into one
+
+## propr 2.0.7
+---------------------
+* New `lrmodel` class
+  * Use `modelCLR` to capture the clr-transformation rule
+  * Use `predict` to deploy this rule to new data
+* Modified backend code
+  * Added `corRcpp` function from `correlateR` package
+  * Added `linRcpp` function for Z-transformation
+  * Added `lltRcpp` and `urtRcpp` to retrieve a half-matrix
+  * Added `labRcpp` to label a half-matrix
+* New `prop2prob` function
+  * Allows hypothesis testing of rho equals naught
+  * Tests differential proportionality
+
+## propr 2.0.6
+---------------------
+* Modified visualization tools
+  * `plotCheck` extended to all plot functions
+  * `plot` method now calls `smear` function
+  * `dendrogram` plot now rendered using `ggplot2`
+  * `snapshot` plot now rendered using `ggplot2`
+  * `bokeh` plot now on positive log scale
+  * `plotly` support added
+* Modified backend code
+  * Temporarily removed `a_bool` function
+* Modified `[` method
+  * Removed `bool` and `copy` arguments
+
+## propr 2.0.5
+---------------------
+* Modified backend code
+  * New `a_bool` function returns thresholded boolean matrix
+* Modified `[` method
+  * New `bool` argument toggles whether to use `a_bool`
+  * New `tiny` argument toggles whether to use `simplify`
+  * New `copy` argument toggles `a_bool` copy-on-modify
+
 ## propr 2.0.4
 ---------------------
 * New visualization tools
@@ -86,10 +168,10 @@
 ## propr 1.0.0
 ---------------------
 * Introduced `phit` function
-  * Implements Lovell's \phi proportionality metric
+  * Implements Lovell's phi proportionality metric
   * Returns object of class `propr`
 * Introduced `perb` function
-  * Implements Erb's \rho proportionality metric
+  * Implements Erb's rho proportionality metric
   * Returns object of class `propr`
 * Introduced `propr` Class
   * `show` method

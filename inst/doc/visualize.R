@@ -32,7 +32,7 @@ dendrogram(top)
 ## ---- eval = FALSE-------------------------------------------------------
 #  top <- simplify(best)
 
-## ---- results = "hide", message = FALSE----------------------------------
+## ---- results = "hide", message = FALSE, fig.keep = "last"---------------
 mds(top, group = caneToad.groups)
 
 ## ---- results = "hide", message = FALSE----------------------------------
@@ -42,12 +42,15 @@ snapshot(top)
 clusts <- prism(top, k = 5)
 
 ## ---- results = "hide", message = FALSE----------------------------------
+clusts <- bokeh(top, k = 5)
+
+## ---- results = "hide", message = FALSE----------------------------------
 clusts <- bucket(top, group = caneToad.groups, k = 5)
 
 ## ---- results = "hide"---------------------------------------------------
 sub <- subset(top, select = (clusts == 4))
 
-## ---- results = "hide"---------------------------------------------------
+## ---- results = "hide", fig.keep = "last"--------------------------------
 mds(sub, group = caneToad.groups)
 
 ## ------------------------------------------------------------------------

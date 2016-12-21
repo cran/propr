@@ -20,14 +20,6 @@ rhoab@matrix
 ## ------------------------------------------------------------------------
 simplify(rho99)
 
-## ---- eval = FALSE-------------------------------------------------------
-#  set.seed(12345)
-#  randomNum <- sample(1:1000, size = 200 * 22, replace = TRUE)
-#  counts <- matrix(randomNum, nrow = 22, ncol = 200)
-#  prop <- phit(counts, symmetrize = FALSE, iter = 50, iterSize = 50)
-#  sum(prop$pval < .01)
-#  sum(prop$fdr < .01)
-
 ## ---- results = "hide", fig.show = "hold", fig.keep = "last"-------------
 plot(rho99)
 

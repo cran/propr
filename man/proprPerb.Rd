@@ -7,11 +7,12 @@
 proprPerb(counts, ivar = 0)
 }
 \arguments{
-\item{counts}{A data.frame or matrix. A "count matrix" with subjects as rows and features as columns.}
+\item{counts}{A data.frame or matrix. A "count matrix" with
+subjects as rows and features as columns.}
 
 \item{ivar}{A numeric scalar. Specificies a reference feature
-for additive log-ratio transformation. Argument will now accept
-the feature name instead of index.}
+for additive log-ratio transformation. The argument will also
+accept a feature name instead of the index position.}
 }
 \value{
 Returns proportionality matrix.

@@ -1,4 +1,5 @@
 #include <Rcpp.h>
+#include <math.h>
 
 using namespace Rcpp;
 
@@ -13,6 +14,34 @@ NumericMatrix centerNumericMatrix(NumericMatrix & X){
   return X;
 }
 
+// Function for cor (via: correlateR package)
+// [[Rcpp::export]]
+NumericMatrix corRcpp(NumericMatrix & X){
+
+  const int m = X.ncol();
+
+  // Centering the matrix
+  X = centerNumericMatrix(X);
+
+  // Compute 1 over the sample standard deviation
+  NumericVector inv_sqrt_ss(m);
+  for (int i = 0; i < m; ++i) {
+    inv_sqrt_ss(i) = 1 / sqrt(sum(X(_, i) * X(_, i)));
+  }
+
+  // Computing the correlation matrix
+  NumericMatrix cor(m, m);
+  for (int i = 0; i < m; ++i) {
+    for (int j = 0; j <= i; ++j) {
+      cor(i, j) = sum(X(_,i) * X(_,j)) *
+        inv_sqrt_ss(i) * inv_sqrt_ss(j);
+      cor(j, i) = cor(i, j);
+    }
+  }
+
+  return cor;
+}
+
 // Function for cov (via: correlateR package)
 // [[Rcpp::export]]
 NumericMatrix covRcpp(NumericMatrix & X,
@@ -22,8 +51,8 @@ NumericMatrix covRcpp(NumericMatrix & X,
   const int m = X.ncol();
   const int df = n - 1 + norm_type;
 
-  // Centering the matrix!
-  X = centerNumericMatrix(X);  // Defined in aux_functions
+  // Centering the matrix
+  X = centerNumericMatrix(X);
 
   // Computing the covariance matrix
   NumericMatrix cov(m, m);
@@ -266,11 +295,124 @@ List indexToCoord(IntegerVector V, const int N){
   );
 }
 
+// Function for pair indexing
+// [[Rcpp::export]]
+IntegerVector coordToIndex(IntegerVector row,
+                           IntegerVector col,
+                           const int N){
+
+  IntegerVector V = (col - 1) * N + row;
+  return V;
+}
+
+// Function for Lin's Z and its variance
+// [[Rcpp::export]]
+NumericMatrix linRcpp(NumericMatrix & rho,
+                      NumericMatrix lr){
+
+  int N = lr.nrow();
+  NumericMatrix r = corRcpp(lr);
+
+  for(int i = 1; i < rho.nrow(); i++){
+    for(int j = 0; j < i; j++){
+
+      // Calculate Z and variance of Z
+      double var_ij = (1 - pow(r(i, j), 2)) * pow(rho(i, j), 2) /
+        (1 - pow(rho(i, j), 2)) / pow(r(i, j), 2) / (N - 2);
+      double z_ij = atanh(rho(i, j));
+
+      // Replace r with Z and var
+      r(j, i) = var_ij;
+      r(i, j) = z_ij;
+    }
+  }
+
+  return r;
+}
+
+// Function to return lower left triangle
+// [[Rcpp::export]]
+NumericVector lltRcpp(NumericMatrix & X){
+
+  int nfeats = X.nrow();
+  int llt = nfeats * (nfeats - 1) / 2;
+  Rcpp::NumericVector result(llt);
+  int counter = 0;
+
+  for(int i = 1; i < nfeats; i++){
+    for(int j = 0; j < i; j++){
+      result(counter) = X(i, j);
+      counter += 1;
+    }
+  }
+
+  return result;
+}
+
+// Function to return upper right triangle
+// [[Rcpp::export]]
+NumericVector urtRcpp(NumericMatrix & X){
+
+  int nfeats = X.nrow();
+  int llt = nfeats * (nfeats - 1) / 2;
+  Rcpp::NumericVector result(llt);
+  int counter = 0;
+
+  for(int i = 1; i < nfeats; i++){
+    for(int j = 0; j < i; j++){
+      result(counter) = X(j, i);
+      counter += 1;
+    }
+  }
+
+  return result;
+}
+
+// Function to label a half matrix
+// [[Rcpp::export]]
+List labRcpp(int nfeats){
+
+  int llt = nfeats * (nfeats - 1) / 2;
+  Rcpp::IntegerVector partner(llt);
+  Rcpp::IntegerVector pair(llt);
+  int counter = 0;
+
+  for(int i = 1; i < nfeats; i++){
+    for(int j = 0; j < i; j++){
+      partner(counter) = i + 1;
+      pair(counter) = j + 1;
+      counter += 1;
+    }
+  }
+
+  return List::create(
+    _["Partner"] = partner,
+    _["Pair"] = pair
+  );
+}
+
+// Function to make phs from rho
+// [[Rcpp::export]]
+NumericMatrix rhoToPhs(NumericMatrix & X){
+
+  // Calculate phs = 1 - rho
+  int nfeats = X.ncol();
+  for(int i = 0; i < nfeats; i++){
+    for(int j = 0; j < nfeats; j++){
+      X(i, j) = (1 - X(i, j)) / (1 + X(i, j));
+    }
+  }
+
+  return X;
+}
+
 /*** R
 X <- t(data.frame("a" = sample(1:10), "b" = sample(1:10), "c" = sample(1:10),
                   "d" = sample(1:10), "e" = sample(1:10), "f" = sample(1:10)))
 
+if(!all(round(cor(X) - corRcpp(X), 5) == 0)) stop("corRcpp error!")
 if(!all(round(cov(X) - covRcpp(X), 5) == 0)) stop("covRcpp error!")
+
 if(!all(round(propr:::proprVLR(X) - vlrRcpp(X), 5) == 0)) stop("vlrRcpp error!")
 if(!all(round(propr:::proprCLR(X) - clrRcpp(X), 5) == 0)) stop("clrRcpp error!")
 if(!all(round(propr:::proprALR(X, ivar = 5) - alrRcpp(X, ivar = 5)[, -5], 5) == 0)) stop("alrRcpp error!")
@@ -280,4 +422,6 @@ if(!all(round(propr:::proprPhit(X) - phiRcpp(X), 5) == 0)) stop("phiRcpp error!"
 if(!all(round(propr:::proprPerb(X) - rhoRcpp(X, propr:::proprCLR(X)), 5) == 0)) stop("rhoRcpp error!")
 if(!all(propr:::proprTri(X) - X[indexPairs(X, "all")] == 0)) stop("indexPairs error!")
 
+X <- t(data.frame("a" = sample(-5:10), "b" = sample(-5:10), "c" = sample(-5:10),
+                  "d" = sample(-5:10), "e" = sample(-5:10), "f" = sample(-5:10)))
 */
