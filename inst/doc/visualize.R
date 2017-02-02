@@ -33,7 +33,7 @@ dendrogram(top)
 #  top <- simplify(best)
 
 ## ---- results = "hide", message = FALSE, fig.keep = "last"---------------
-mds(top, group = caneToad.groups)
+pca(top, group = caneToad.groups)
 
 ## ---- results = "hide", message = FALSE----------------------------------
 snapshot(top)
@@ -51,7 +51,7 @@ clusts <- bucket(top, group = caneToad.groups, k = 5)
 sub <- subset(top, select = (clusts == 4))
 
 ## ---- results = "hide", fig.keep = "last"--------------------------------
-mds(sub, group = caneToad.groups)
+pca(sub, group = caneToad.groups)
 
 ## ------------------------------------------------------------------------
 transcripts <- colnames(sub@logratio)

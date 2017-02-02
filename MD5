@@ -1,6 +1,6 @@
-db2b98625bcf3c50354d325ddbe38cc3 *DESCRIPTION
-93aec3d8abe8e6921fad5388851871c7 *NAMESPACE
-88834996712dbdf6e460d7043e6b33d6 *NEWS.md
+54c00cf2d13d840dcce5df45815676b6 *DESCRIPTION
+1aececc5b4259de8e80ccacb1d070346 *NAMESPACE
+95d6491b3b6281392b220feda2470e49 *NEWS.md
 76fb67aea64ef74c7d48a421b05f8588 *R/RcppExports.R
 3ff2e9fcd3d25cdee3667a1fdcae4ed1 *R/deprecated.R
 7e2c80615265a05ae535022fd0941fc6 *R/global.R
@@ -8,7 +8,7 @@ ea1debc75e0c6615bd000804b476e584 *R/lrmodel.R
 82c1829cdee4b48d19578b7b26df5fad *R/methods.R
 0b4893e99cb5bc7cfd80236b7a2d9337 *R/prop2prob.R
 01eec63412b9a4847ec4ef2ddad0593d *R/proportionality.R
-24fba5f3e9c48ffae5b6f9ce6af5ea64 *R/visualize.R
+02def80c55b0fdcfea5c7342f6c86497 *R/visualize.R
 d53106c82982b7ec1bd096e38396bca5 *README.md
 bede9b648cc263ed084dec9c4c66aaf6 *build/vignette.rds
 1f1654ae67ec05f1b6e3f157b7ffa8fc *data/caneToad.counts.rda
@@ -16,12 +16,13 @@ e802143702b261475b19f05158e5a601 *data/caneToad.groups.rda
 4733c183112570bb6954d306b6e20231 *data/datalist
 56ae3d28264f2ee57da266bcaafea50e *data/mail.rda
 3fdfd61583aba938c37c6184419cf768 *data/top.rda
-fbe2ee372be3b6a78b5a54aabb7cce8a *inst/doc/introduction.R
-a8de2cad2a05aee92f8b85e047d933ca *inst/doc/introduction.Rmd
-b5d90c4f7421cd370a918477552b4aae *inst/doc/introduction.html
-7f37cbd547cf62c249b8982aad9cb466 *inst/doc/visualize.R
-f5ce72827d06f5aaac0b15ede77179d3 *inst/doc/visualize.Rmd
-d5bef36cae9c1b875f1c9fc0334397eb *inst/doc/visualize.html
+b6418dd3766eb44cc1d6c21b015d2119 *inst/CITATION
+fbdd48e018c31922d1206405b2a193f4 *inst/doc/introduction.R
+790cf09707f58747d043566f5b0fdd11 *inst/doc/introduction.Rmd
+8fd58191f9e6a24e67ece7093f18d825 *inst/doc/introduction.html
+7f106abb493a4849ebb479b9e45ca85a *inst/doc/visualize.R
+6f1ab981b9b95282b3f93333c43fa798 *inst/doc/visualize.Rmd
+f0c4230002b03dbbdb226043306b3278 *inst/doc/visualize.html
 e4fea7a40b75f4b146d0d863c1c49414 *man/abstract.Rd
 fa1813bc758839472c691c9f39b95448 *man/caneToad.counts.Rd
 3e8ddff58269a55b8fb572738126342f *man/caneToad.groups.Rd
@@ -47,7 +48,7 @@ aa2a06cf54fe19a483b566cfa2086fad *man/proprPerb.Rd
 951c5919bea5f35ee9ad4218a6eb9625 *man/proprTri.Rd
 b23c06d927ab799f4126104c2285af1c *man/proprVLR.Rd
 c6564bd049a14eae552da08d5e43a50c *man/top.Rd
-bde4162c7f30eaaef673eea46d9a589a *man/visualize.Rd
+9aaf38c3dc363eb347ff1de15fb514be *man/visualize.Rd
 2c82b070fb1c3e42c823f3710939e6bc *src/RcppExports.cpp
 eab613fd6412716f6f8bdf4fc0bea293 *src/backend.cpp
 38a416384180a93d31020bdffb37ccee *tests/testthat.R
@@ -61,5 +62,5 @@ fb995286047319340ea951b7fb50b49a *tests/testthat/test-phit.R
 47e7353c4b2bd47309a12835b1770442 *tests/testthat/test-prop2prob.R
 b8ad11479a5be8cf446e974854a586d8 *tests/testthat/test-simplify.R
 23378d943d79a9bf3fb14ed100337e57 *tests/testthat/test-vlr.R
-a8de2cad2a05aee92f8b85e047d933ca *vignettes/introduction.Rmd
-f5ce72827d06f5aaac0b15ede77179d3 *vignettes/visualize.Rmd
+790cf09707f58747d043566f5b0fdd11 *vignettes/introduction.Rmd
+6f1ab981b9b95282b3f93333c43fa798 *vignettes/visualize.Rmd
