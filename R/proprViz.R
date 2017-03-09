@@ -41,6 +41,9 @@
 #'  Plots an estimation of the degree to which a feature pair
 #'  differentiates the experimental groups versus the
 #'  measure of the proportionality between that feature pair.
+#'  The discrimination score is defined as the negative
+#'  log of the p-values for each feature in the pair,
+#'  computed independently using \code{kruskal.test}.
 #'  "It's pronounced, 'bouquet'." - Hyacinth Bucket
 #'
 #' \code{pca:}
@@ -99,12 +102,11 @@
 #'  the courtesy prompt when working with big data.
 #' @param plotly A logical scalar. Set to \code{TRUE} to produce
 #'  a dynamic plot using the \code{plotly} package.
-#' @param minPairs An integer scalar. Subsets the interaction
-#'  network to exclude any pair without a node that participates
-#'  in at least this many total pairs. Required parameter
-#'  for \code{cytescape}.
+#' @param col1,col2 A character vector. Specifies which nodes
+#'  to color \code{red} or \code{blue}, respectively.
+#' @param d3 A boolean. Use \code{rgl} to plot 3D network.
 #'
-#' @importFrom stats var as.dist as.formula lm aov cutree prcomp dist
+#' @importFrom stats var as.dist as.formula lm aov cutree prcomp dist kruskal.test
 #' @name visualize
 NULL
 
@@ -132,15 +134,16 @@ smear <- function(rho, prompt = TRUE, plotly = FALSE){
 
   # Melt *lr counts by feature pairs
   nsubj <- nrow(rho@logratio)
-  L <- length(V) * nsubj
+  Vlen <- length(V)
+  L <- Vlen * nsubj
   partner <- vector("character", L)
   pair <- vector("character", L)
   feat1 <- vector("numeric", L)
   feat2 <- vector("numeric", L)
-  group <- vector("numeric", length(V) * nsubj)
-  for(i in 1:length(V)){
+  group <- vector("numeric", Vlen * nsubj)
+  for(i in 1:Vlen){
 
-    cat("Shaping pair ", i, "...", sep = "")
+    numTicks <- progress(i, Vlen, numTicks)
     i.order <- order(rho@logratio[, coord$feat1[i]])
     partner[((i-1)*nsubj + 1):((i-1)*nsubj + nsubj)] <- colnames(rho@logratio)[coord$feat1[i]]
     pair[((i-1)*nsubj + 1):((i-1)*nsubj + nsubj)] <- colnames(rho@logratio)[coord$feat2[i]]
@@ -150,7 +153,6 @@ smear <- function(rho, prompt = TRUE, plotly = FALSE){
   }
 
   # Plot *lr-Y by *lr-X
-  cat("\n")
   df <- data.frame("X" = feat1, "Y" = feat2, "Group" = group, "Partner" = partner, "Pair" = pair)
   df$Group <- factor(df$Group)
   g <-
@@ -347,9 +349,7 @@ bucket <- function(rho, group, k, prompt = TRUE, plotly = FALSE){ # pronounced b
   for(i in 1:numfeats){
 
     formula <- as.formula(paste0(colnames(data)[i], "~group"))
-    fit <- lm(formula, data)
-    res <- summary(aov(fit))
-    p.val[i] <- res[[1]]$'Pr(>F)'[1]
+    p.val[i] <- kruskal.test(formula, data)$p.value
   }
 
   # Add discriminating power to slate result
@@ -370,7 +370,7 @@ bucket <- function(rho, group, k, prompt = TRUE, plotly = FALSE){ # pronounced b
     ggplot2::theme_bw() +
     ggplot2::scale_colour_brewer(palette = "Set2", name = "Co-Cluster") +
     ggplot2::xlab("Proportionality Between Features (rho)") +
-    ggplot2::ylab("Discrimination Between Groups") +
+    ggplot2::ylab("Discrimination Score") +
     ggplot2::ggtitle("Group Discrimination by Feature Pair") +
     ggplot2::xlim(-1, 1) +
     ggplot2::ylim(0, max(df$Score)) +
@@ -586,7 +586,7 @@ snapshot <- function(rho, prompt = TRUE, plotly = FALSE){
 
 #' @rdname visualize
 #' @export
-cytescape <- function(object, minPairs = 2){
+cytescape <- function(object, col1, col2, prompt = TRUE, d3 = FALSE){
 
   packageCheck("igraph")
 
@@ -595,32 +595,53 @@ cytescape <- function(object, minPairs = 2){
     stop("Uh oh! This function requires an indexed 'propr' object.")
   }
 
-  # Prepare data
+  object <- plotCheck(object, prompt = FALSE, plotly = FALSE, indexNaive = FALSE)
+  if(prompt) promptCheck(length(object@pairs))
+
   rho <- object@matrix[object@pairs]
   coords <- indexToCoord(object@pairs, nrow(object@matrix))
-  df <- data.frame("Partner" = coords[[1]], "Pair" = coords[[2]], rho)
-
-  # Remove extraneous pairs
-  keep <- which(table(c(df$Partner, df$Pair)) >= minPairs)
-  sub <- df[df$Partner %in% keep | df$Pair %in% keep, ]
-
-  # Build and color igraph
-  if(nrow(sub) == 0) stop("No pairs remain after filter.")
-  g <- igraph::graph_from_data_frame(sub, directed = FALSE)
-  igraph::V(g)$color <- "white"
-  colors <- rep("yellow", nrow(sub))
-  colors[sub$rho > .25] <- "orange"
-  colors[sub$rho > .75] <- "red"
-  colors[sub$rho < -.25] <- "green"
-  colors[sub$rho < -.75] <- "blue"
-  igraph::E(g)$color <- colors
-  plot(g, vertex.size = 2, vertex.label = NA)
-
-  # Retrieve node names
   names <- colnames(object@logratio)
-  if(!is.null(names)){
-    sub$Partner <- names[sub$Partner]
-    sub$Pair <- names[sub$Pair]
+  sub <- data.frame("Partner" = names[coords[[1]]],
+                    "Pair" = names[coords[[2]]], rho,
+                    stringsAsFactors = FALSE)
+
+  g <- igraph::make_empty_graph(directed = FALSE)
+  g <- migraph.add(g, sub$Partner, sub$Pair)
+
+  g <- migraph.color(g, sub$Partner, sub$Pair, "forestgreen")
+  message("Green: Pair positively proportional across all samples.")
+
+  if(object@matrix[1, 1] == 0){ # if phi
+
+    colnames(sub)[3] <- "phi"
+
+  }else if(object@matrix[1, 1] == 1){ # if rho
+
+    invProp <- sub[, 3] < 0
+    if(any(invProp)){
+
+      g <- migraph.color(g, sub$Partner[invProp], sub$Pair[invProp], "burlywood4")
+      message("Brown: Pair inversely proportional across all samples.")
+    }
+
+  }else{
+
+    stop("Matrix not recognized.")
+  }
+
+  if(!missing(col1)) g <- migraph.color(g, col1, col = "darkred")
+  if(!missing(col2)) g <- migraph.color(g, col2, col = "darkslateblue")
+  g <- migraph.clean(g)
+
+  if(d3){
+
+    packageCheck("rgl")
+    coords <- igraph::layout_with_fr(g, dim = 3)
+    suppressWarnings(igraph::rglplot(g, layout = coords))
+
+  }else{
+
+    plot(g)
   }
 
   return(sub)

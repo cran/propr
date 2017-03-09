@@ -1,3 +1,55 @@
+## propr 2.1.8
+---------------------
+* Modified visualization tools
+    * The `bucket` function now uses non-parametric ANOVA
+    * The `cytescape` function now supports 3D visualization
+    * The `cytescape` function now names columns correctly
+* Add "Frequently Asked Questions" vignette
+* Remove `lrmodel` module
+
+## propr 2.1.7
+---------------------
+* Force column and row names when calculating proportionality
+    * Added `plotCheck` to `cytescape` function
+
+## propr 2.1.6
+---------------------
+* The `aldex.cor` function now returns average p-value
+    * Now uses `cor.test` as `lr2cor` foundation instead of `cor`
+* Modified `aldex2propr` function
+    * Added `select` argument like in `perb` function
+    * Documented `select` argument in Details
+* Modified `perb` function
+    * Alerts user when 'ivar' is missing from 'select'
+    * Documented `select` argument in Details
+
+## propr 2.1.5
+---------------------
+* Stop exporting `progress` and `migraph` functions
+* Color `cytescape` edges correctly when plotting phi or phs
+* Add `progress` bar to `smear` function
+
+## propr 2.1.4
+---------------------
+* Add `progress` bar to `aldex2propr` and `aldex.cor` functions
+* Penalize `lr2cor` and `aldex.cor` p-values for two-tailed test
+* Add the `migraph` module to help make `igraph` networks
+* Modified visualization tools
+    * Rebuilt `cytescape` using `migraph` module
+
+## propr 2.1.3
+---------------------
+* New `aldex2propr` function converts`aldex.clr` object
+    * Uses Monte Carlo instances from `ALDEx2` package
+* New `lr2cor` and `aldex.cor` functions
+    * Measures feature associations with continuous variables
+* Modified backend code
+    * New `backend.h` allows import of `backend.cpp`
+    * New `lr2` functions calculate proportionality
+        * Input log-ratio transformed counts
+* Modified visualization tools
+    * Removed `minPairs` argument from `cytescape`
+
 ## propr 2.1.2
 ---------------------
 * Modified visualization tools
