@@ -4,7 +4,7 @@ author: "Thomas Quinn"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Understanding RNA-seq Data through Proportionality Analysis}
+  %\VignetteIndexEntry{2. Understanding RNA-seq Data through Proportionality Analysis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -37,13 +37,13 @@ That said, in some circumstances, it is simply infeasible to calculate a proport
 keep <- apply(caneToad.counts, 2, function(x) sum(x >= 10) >= 10)
 ```
 
-The proportionality metric $\rho$ has two advantages compared to $\phi$. First, $\rho$ is measured on a scale from $[-1, 1]$, reinforcing its analogy to correlation. Second, $\rho$ adjusts the measure of dependence between two features by the individual variance of *both* features. This symmetrizes the proportionality matrix and may help make proportionality more robust (Erb 2016).
+The proportionality metric $\rho$ has two advantages compared to $\phi$. First, $\rho$ is measured on a scale from $[-1, 1]$, reinforcing its analogy to correlation. Second, $\rho$ adjusts the measure of dependence between two features by the individual variance of *both* features. This symmetrizes the proportionality matrix and may help make proportionality more robust (Erb 2016). Note, however, that since version 2.2.0, `caneToad.counts` is bundled as already pre-filtered in order to satisfy strict file size limits imposed by CRAN.
 
 ```{r, eval = FALSE}
 rho <- perb(caneToad.counts, select = keep)
 ```
 
-Next, we index the most highly proportional pairs based on an arbitrary threshold. In the absence of any statistical testing framework, we set this threshold at $\rho>0.99$ to include only "very proportional" transcript pairs. Alternatively, we could set this threshold at $\rho<-0.99$ to include only "very unproportional" pairs. However, take note that we use a more stringent threshold here so that the vignette renders more quickly.
+Next, we index the most highly proportional pairs based on an arbitrary threshold. In the absence of any statistical testing framework, we set this threshold at $\rho>0.95$ to include only "very proportional" transcript pairs. Alternatively, we could set this threshold at $\rho<-0.95$ to include only "very unproportional" pairs. However, take note that we use a more stringent threshold here so that the vignette renders more quickly.
 
 ```{r, eval = FALSE}
 best <- rho[">", .995]

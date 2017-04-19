@@ -6,6 +6,9 @@
 #  rho <- propr::aldex2propr(x, how = "rho")
 
 ## ---- eval = FALSE-------------------------------------------------------
+#  rho <- perb(caneToad.counts, ivar = "iqlr")
+
+## ---- eval = FALSE-------------------------------------------------------
 #  data(caneToad.counts)
 #  rho <- perb(caneToad.counts)
 #  autoprop <- rho[">", .995]@pairs
@@ -14,5 +17,6 @@
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  data(caneToad.counts)
-#  propr:::clrRcpp(caneToad.counts[])
+#  prop <- new("propr", counts = caneToad.counts, ivar = "iqlr")
+#  prop@logratio
 

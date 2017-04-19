@@ -214,20 +214,10 @@ plotCheck <- function(rho, prompt, plotly, indexNaive){
 
     if(length(rho@pairs) != 0) message("Alert: This function ignores index.")
     if(prompt) promptCheck(nrow(rho@matrix))
-
-  }else{
-
-    if(class(rho) != "propr"){
-      stop("Uh oh! This function requires a 'propr' object.")
-    }
   }
 
-  if(is.null(colnames(rho@logratio))){
-    colnames(rho@logratio) <- as.character(1:ncol(rho@logratio))
-  }
-
-  if(is.null(rownames(rho@logratio))){
-    rownames(rho@logratio) <- as.character(1:nrow(rho@logratio))
+  if(class(rho) != "propr"){
+    stop("Uh oh! This function requires a 'propr' object.")
   }
 
   return(rho)
@@ -302,11 +292,21 @@ packageCheck <- function(package){
 
 #' Example Cane Toad Count Data
 #'
+#' Raw RNA-seq counts for twenty toads sampled from one
+#'  of two regions in Australia. Data set reduced to
+#'  exclude any transcripts without at least 10 counts
+#'  in at least 10 samples.
+#'
 #' @source <DOI:10.1111/mec.13184>
 #' @usage data(caneToad.counts)
 "caneToad.counts"
 
 #' Example Cane Toad Group Data
+#'
+#' Group labels for twenty toads sampled from one
+#'  of two regions in Australia. Data set reduced to
+#'  exclude any transcripts without at least 10 counts
+#'  in at least 10 samples.
 #'
 #' @source <DOI:10.1111/mec.13184>
 #' @usage data(caneToad.groups)
@@ -328,3 +328,19 @@ packageCheck <- function(package){
 #' @source <DOI:10.1111/mec.13184>
 #' @usage data(top)
 "top"
+
+#' Example Absolute mRNA
+#'
+#' Data generated with supplemental script provided by
+#'  <DOI:10.1371/journal.pcbi.1004075>. Data originally
+#'  sourced from <DOI:10.1016/j.cell.2012.09.019>.
+#'  A time series of yeast mRNA abundance after removal
+#'  of a key nutrient. Absolute abundance estimated
+#'  by multiplying microarray signal (relative to first
+#'  time point) by the initial nCounter-calibrated and
+#'  copy-per-cell-adjusted RNA-seq abundance (averaged
+#'  across two replicates). Divide absolute abundances
+#'  by total sample abundance to make data relative.
+#'
+#' @usage data(marg.abs)
+"marg.abs"

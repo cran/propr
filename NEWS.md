@@ -1,3 +1,23 @@
+## propr 2.2.0
+---------------------
+* Modified data set from Rollins et al. 2015
+    * Removed transcripts with < 10 counts in < 10 samples
+* Add data set from Marguerat et al. 2012
+    * Absolute data stored as `marg.abs`
+
+## propr 2.1.9
+---------------------
+* Replace `rhoToPhs` function with `lr2phs`
+    * Fixed `phis` bug when using alr-transformation
+    * Fixed `aldex2propr` bug when using alr-transformation
+    * Add unit tests for `lr2` with `ivar`
+* Create `initialize` method to handle `ivar` and `select`
+    * `phit`, `perb`, and `phis` use `new` with `lr2`
+    * `phit` now accepts `ivar` and `select`
+    * `phit` now has `pca` and `snapshot`
+    * Add `iqlr` and "multi"-alr
+* Updated "Frequently Asked Questions" vignette
+
 ## propr 2.1.8
 ---------------------
 * Modified visualization tools
@@ -5,7 +25,7 @@
     * The `cytescape` function now supports 3D visualization
     * The `cytescape` function now names columns correctly
 * Add "Frequently Asked Questions" vignette
-* Remove `lrmodel` module
+* Removed `lrmodel` module
 
 ## propr 2.1.7
 ---------------------

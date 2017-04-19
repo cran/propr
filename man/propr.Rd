@@ -2,15 +2,15 @@
 % Please edit documentation in R/methods.R
 \docType{class}
 \name{propr}
-\alias{[,propr,ANY,ANY-method}
-\alias{[,propr-method}
-\alias{adjacent}
-\alias{plot,propr,missing-method}
 \alias{propr}
 \alias{propr-class}
 \alias{show,propr-method}
-\alias{simplify}
 \alias{subset,propr-method}
+\alias{[,propr,ANY,ANY-method}
+\alias{[,propr-method}
+\alias{plot,propr,missing-method}
+\alias{simplify}
+\alias{adjacent}
 \title{The propr Package}
 \usage{
 \S4method{show}{propr}(object)
@@ -44,8 +44,8 @@ value to which to compare the proportionality measures in the
 \item{tiny}{A logical scalar. Toggles whether to pass the indexed
 result through \code{\link{simplify}}.}
 
-\item{y}{Missing. Ignore. Leftover from the generic method
-definition.}
+\item{y}{Missing. Ignore. Leftover from the generic
+method definition.}
 
 \item{prompt}{A logical scalar. Set to \code{FALSE} to disable
 the courtesy prompt when working with big data.}
@@ -56,14 +56,17 @@ a dynamic plot using the \code{plotly} package.}
 \description{
 Welcome to the \code{propr} package!
 
-To learn more about how to calculate proportionality, see
+To learn more about calculating proportionality, see
  \code{\link{proportionality}}.
 
-To learn more about proportionality plots, see
+To learn more about visualizing proportionality, see
  \code{\link{visualize}}.
 
+To learn more about \code{ALDEx2} package integration, see
+ \code{\link{aldex2propr}}.
+
 To learn more about differential proportionality, see
- \code{\link{prop2prob}}.
+ \code{\link{propd}}.
 
 To learn more about compositional data analysis, and its relevance
  to biological count data, see the bundled vignette.
@@ -80,6 +83,7 @@ To learn more about compositional data analysis, and its relevance
 
 \item{\code{pairs}}{A vector. Indexes the proportionality metrics of interest.}
 }}
+
 \section{Methods (by generic)}{
 
 \code{show:} Method to show \code{propr} object.
