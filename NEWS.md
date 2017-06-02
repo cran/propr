@@ -1,3 +1,61 @@
+## propr 3.0.4
+---------------------
+* Modified `calculateTheta`
+    * Now saves log-ratio variance (LRV) modifier in output
+* Modified visualization tools
+    * New `decomposed` function for LRV decomposition
+    * Uses LRV modifier for weighted theta types
+
+## propr 3.0.3
+---------------------
+* Modified visualization tools
+    * Updated `plot.propd` method to display `theta_f`
+
+## propr 3.0.2
+---------------------
+* Modified `propd` Class
+    * Added `@weighted` slot now used by `updateCutoffs`
+* Implement backend for "weighted theta" calculation
+    * Added `wtmRcpp` for weighted mean calculation
+    * Added `wtvRcpp` for weighted variance calculation
+    * Added `lrm` function with optional weighted calculations
+    * Added `lrv` function with optional weighted calculations
+* Implement "weighted theta" calculation
+    * Added `calculateThetaW_old` for unit testing
+    * Added weighted lrv calculation
+* Modified `calculateTheta`
+    * Moved log-ratio mean calculations here
+    * Added weighted lrm calculation
+
+## propr 3.0.1
+---------------------
+* Modified `propd` Class
+    * Added `@active` slot now used by `updateCutoffs`
+    * Added `setActive` method to switch between theta types
+* Modified `calculateTheta`
+    * Added `theta_f` which equals `1 - theta_e`
+    * Added `only` argument to retrieve only one theta type
+
+## propr 3.0.0
+---------------------
+* Modified package skeleton
+    * Added differential proportionality article to CITATION
+    * Added propriety project pre-merger changelog to OLDNEWS.md
+* Manually merged R functions from propriety project
+    * New functions: `propd` and methods, `calculateTheta`, `updateCutoffs`
+    * Added deprecated functions anticipating unit tests
+* Manually merged C++ functions from propriety project
+    * New functions: `half2matrix`, `boxRcpp`, `ctzRcpp`, `lrmRcpp`
+    * Added deprecated functions anticipating unit tests
+* Modified unit tests
+    * Added `requireNamespace` check for `ALDEx2` tests
+    * Added unit tests from propriety project
+* Modified data
+    * Rebuilt `pd.d` and `pd.e` data
+    * Added `top.counts` as count data using filtered `caneToad.counts`
+    * Added `top.lr` as log-ratio data using filtered `caneToad.counts`
+    * Removed `top` data
+
 ## propr 2.2.0
 ---------------------
 * Modified data set from Rollins et al. 2015

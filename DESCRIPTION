@@ -1,13 +1,13 @@
 Package: propr
 Title: Calculating Proportionality Between Vectors of Compositional
         Data
-Version: 2.2.0
+Version: 3.0.4
 URL: http://github.com/tpq/propr
 BugReports: http://github.com/tpq/propr/issues
 Authors@R: c(
     person("Thomas", "Quinn", email = "contacttomquinn@gmail.com", role = c("aut", "cre")),
     person("David", "Lovell", email = "david.lovell@qut.edu.au", role = "aut"),
-    person("Ionas", "Erb", email = "ionas.erb@crg.eu", role = "ctb"),
+    person("Ionas", "Erb", email = "ionas.erb@crg.eu", role = "aut"),
     person("Anders", "Bilgrau", email = "anders.ellern.bilgrau@gmail.com", role = "ctb"),
     person("Greg", "Gloor", email = "ggloor@uwo.ca", role = "ctb")
     )
@@ -27,17 +27,18 @@ LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 6.0.1
 Depends: methods, R (>= 3.2.2)
-Imports: fastcluster, ggplot2, igraph, Rcpp, stats, utils
-Suggests: ALDEx2, cccrm, compositions, data.table, grid, ggdendro,
-        knitr, plotly, reshape2, rgl, rmarkdown, testthat
+Imports: fastcluster, ggplot2, grDevices, igraph, Rcpp, stats, utils
+Suggests: ALDEx2, cccrm, compositions, data.table, datasets,
+        directlabels, grid, ggdendro, knitr, limma, plotly, reshape2,
+        rgl, rmarkdown, SDMTools, testthat
 LinkingTo: Rcpp
 NeedsCompilation: yes
-Packaged: 2017-04-19 00:49:55 UTC; thom
+Packaged: 2017-06-02 00:42:48 UTC; thom
 Author: Thomas Quinn [aut, cre],
   David Lovell [aut],
-  Ionas Erb [ctb],
+  Ionas Erb [aut],
   Anders Bilgrau [ctb],
   Greg Gloor [ctb]
 Maintainer: Thomas Quinn <contacttomquinn@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-04-19 03:58:50 UTC
+Date/Publication: 2017-06-02 05:26:33 UTC

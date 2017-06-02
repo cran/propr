@@ -61,6 +61,18 @@ labRcpp <- function(nfeats) {
     .Call('propr_labRcpp', PACKAGE = 'propr', nfeats)
 }
 
+half2mat <- function(X) {
+    .Call('propr_half2mat', PACKAGE = 'propr', X)
+}
+
+count_if <- function(x) {
+    .Call('propr_count_if', PACKAGE = 'propr', x)
+}
+
+pairmutate <- function(counts, group) {
+    .Call('propr_pairmutate', PACKAGE = 'propr', counts, group)
+}
+
 lr2vlr <- function(lr) {
     .Call('propr_lr2vlr', PACKAGE = 'propr', lr)
 }
@@ -75,5 +87,37 @@ lr2rho <- function(lr) {
 
 lr2phs <- function(lr) {
     .Call('propr_lr2phs', PACKAGE = 'propr', lr)
+}
+
+boxRcpp <- function(X, a) {
+    .Call('propr_boxRcpp', PACKAGE = 'propr', X, a)
+}
+
+ctzRcpp <- function(X) {
+    .Call('propr_ctzRcpp', PACKAGE = 'propr', X)
+}
+
+lrmRcpp <- function(X) {
+    .Call('propr_lrmRcpp', PACKAGE = 'propr', X)
+}
+
+wtmRcpp <- function(x, w) {
+    .Call('propr_wtmRcpp', PACKAGE = 'propr', x, w)
+}
+
+wtvRcpp <- function(x, w) {
+    .Call('propr_wtvRcpp', PACKAGE = 'propr', x, w)
+}
+
+lrm <- function(X, W, weighted = FALSE) {
+    .Call('propr_lrm', PACKAGE = 'propr', X, W, weighted)
+}
+
+lrv <- function(X, W, weighted = FALSE) {
+    .Call('propr_lrv', PACKAGE = 'propr', X, W, weighted)
+}
+
+lrvMod <- function(X, W) {
+    .Call('propr_lrvMod', PACKAGE = 'propr', X, W)
 }
 

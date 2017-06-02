@@ -10,7 +10,7 @@
 #'  vertices (or edges) specified by the \code{names1} (or
 #'  \code{names2}) argument.
 #' @param force A boolean. If true, the function adds any
-#'  missing vertcies before adding edges. If false, the
+#'  missing vertices before adding edges. If false, the
 #'  function only adds edges that have both vertices
 #'  already present.
 #'
@@ -321,13 +321,25 @@ packageCheck <- function(package){
 
 #' Example propr Object
 #'
-#' Includes results from \code{\link{perb}} as applied to
+#' Includes the non-transformed count abundances from all
 #'  cane toad transcripts with at least 10 counts in at least
-#'  10 samples. Used for vignette.
+#'  10 samples, subsetted to include only those indexed
+#'  by \code{rho > .995}. Used for vignette.
 #'
 #' @source <DOI:10.1111/mec.13184>
-#' @usage data(top)
-"top"
+#' @usage data(top.counts)
+"top.counts"
+
+#' Example propr Object
+#'
+#' Includes the log-ratio transformed abundances from all
+#'  cane toad transcripts with at least 10 counts in at least
+#'  10 samples, subsetted to include only those indexed
+#'  by \code{rho > .995}. Used for vignette.
+#'
+#' @source <DOI:10.1111/mec.13184>
+#' @usage data(top.lr)
+"top.lr"
 
 #' Example Absolute mRNA
 #'
@@ -344,3 +356,27 @@ packageCheck <- function(package){
 #'
 #' @usage data(marg.abs)
 "marg.abs"
+
+#' Example propd Object
+#'
+#' Includes results from \code{\link{propd}} as applied to
+#'  cane toad transcripts with at least 40 counts in at least
+#'  20 samples (after removing any transcripts with 0 counts).
+#'  The resultant object is filtered to include only the top
+#'  1000 theta_d values in the \code{@@theta} slot.
+#'
+#' @source <DOI:10.1111/mec.13184>
+#' @usage data(pd.d)
+"pd.d"
+
+#' Example propd Object
+#'
+#' Includes results from \code{\link{propd}} as applied to
+#'  cane toad transcripts with at least 40 counts in at least
+#'  20 samples (after removing any transcripts with 0 counts).
+#'  The resultant object is filtered to include only the top
+#'  1000 theta_e values in the \code{@@theta} slot.
+#'
+#' @source <DOI:10.1111/mec.13184>
+#' @usage data(pd.e)
+"pd.e"
