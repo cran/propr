@@ -16,8 +16,6 @@ best <- best[">", .995]
 
 ## ---- dpi = 72, eval = FALSE---------------------------------------------
 #  keep <- apply(caneToad.counts, 2, function(x) sum(x >= 10) >= 10)
-
-## ---- dpi = 72, eval = FALSE---------------------------------------------
 #  rho <- perb(caneToad.counts, select = keep)
 
 ## ---- dpi = 72, eval = FALSE---------------------------------------------
@@ -48,7 +46,10 @@ clusts <- bokeh(best, k = 5)
 clusts <- bucket(best, group = caneToad.groups, k = 5)
 
 ## ---- dpi = 72, results = "hide"-----------------------------------------
-sub <- subset(best, select = (clusts == 4))
+sub <- subset(best, select = (clusts == 2))
+
+## ---- dpi = 72, results = "hide", message = FALSE, fig.keep = "last"-----
+cyt <- cytescape(sub[">", .95])
 
 ## ---- dpi = 72, results = "hide", fig.keep = "last"----------------------
 pca(sub, group = caneToad.groups)
