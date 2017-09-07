@@ -1,7 +1,7 @@
 Package: propr
 Title: Calculating Proportionality Between Vectors of Compositional
         Data
-Version: 3.0.6
+Version: 3.0.7
 URL: http://github.com/tpq/propr
 BugReports: http://github.com/tpq/propr/issues
 Authors@R: c(
@@ -32,7 +32,7 @@ Suggests: ALDEx2, cccrm, compositions, data.table, datasets,
         rgl, rmarkdown, SDMTools, testthat
 LinkingTo: Rcpp
 NeedsCompilation: yes
-Packaged: 2017-08-01 02:13:07 UTC; thom
+Packaged: 2017-09-07 01:01:29 UTC; thom
 Author: Thomas Quinn [aut, cre],
   David Lovell [aut],
   Ionas Erb [aut],
@@ -40,4 +40,4 @@ Author: Thomas Quinn [aut, cre],
   Greg Gloor [ctb]
 Maintainer: Thomas Quinn <contacttomquinn@gmail.com>
 Repository: CRAN
-Date/Publication: 2017-08-01 04:54:56 UTC
+Date/Publication: 2017-09-07 03:16:58 UTC
