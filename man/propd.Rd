@@ -18,11 +18,12 @@
 \alias{slice}
 \alias{decomposed}
 \alias{updateCutoffs}
+\alias{updateF}
 \title{The propd Method}
 \usage{
 \S4method{show}{propd}(object)
 
-propd(counts, group, alpha, p = 100, cutoff = NA, weighted = FALSE)
+propd(counts, group, alpha, p = 100, weighted = FALSE)
 
 propd2propr(object, ivar)
 
@@ -48,6 +49,8 @@ slice(object, cutoff = 1000, reference, prompt = TRUE, plotly = FALSE)
 decomposed(object, cutoff = 1000, prompt = TRUE)
 
 updateCutoffs(propd, cutoff = seq(0.05, 0.95, 0.3))
+
+updateF(propd, moderated = FALSE, ivar = "clr")
 }
 \arguments{
 \item{object, x, propd}{A \code{propd} object.}
@@ -63,13 +66,6 @@ to skip Box-Cox transformation.}
 
 \item{p}{An integer. The number of permutation cycles.}
 
-\item{cutoff}{For \code{propd}, a numeric vector.
-this argument provides the FDR cutoffs to test for theta.
-For graph functions, a numeric scalar. This argument
-indicates the maximum theta to include in the figure.
-For graph functions, a large integer will instead
-retrieve the top N pairs as ranked by theta.}
-
 \item{weighted}{A boolean. Toggles whether to calculate
 theta using \code{limma::voom} weights.}
 
@@ -83,6 +79,13 @@ Ignore to use centered log-ratio transformation.}
 
 \item{y}{Missing. Ignore. Leftover from the generic method
 definition.}
+
+\item{cutoff}{For \code{updateCutoffs}, a numeric vector.
+this argument provides the FDR cutoffs to test for theta.
+For graph functions, a numeric scalar. This argument
+indicates the maximum theta to include in the figure.
+For graph functions, a large integer will instead
+retrieve the top N pairs as ranked by theta.}
 
 \item{col1}{A character vector. Specifies which nodes
 to color \code{red} or \code{blue}, respectively.}
@@ -114,6 +117,9 @@ a dynamic plot using the \code{plotly} package.}
 
 \item{reference}{A character string. A feature to use as the
 denominator reference when comparing log-ratio abundances.}
+
+\item{moderated}{For \code{updateF}, a boolean. Toggles
+whether to calculate a moderated F-statistic.}
 }
 \description{
 Welcome to the \code{propd} method!
@@ -147,6 +153,13 @@ Note that Group 1 always refers to the first element of the
  number of theta cutoffs. Since the permutations get saved
  when the object is created, calling \code{updateCutoffs}
  will use the same random seed each time.
+
+\code{updateF:}
+ Use the \code{propd} object to calculate the F-statistic
+ from theta as described in the Erb et al. 2017 manuscript
+ on differential proportionality. Optionally calculates a
+ moderated F-statistic using the limma-voom method. Supports
+ weighted and alpha transformed theta values.
 
 \code{plot:}
  Plots the interactions between pairs as a network.
@@ -238,11 +251,11 @@ Note that Group 1 always refers to the first element of the
 
 \item{\code{alpha}}{A double. Stores the alpha value used for transformation.}
 
-\item{\code{weighted}}{A logical. Stores whether the theta is weighted.
-Used by \code{updateCutoffs}.}
+\item{\code{weighted}}{A logical. Stores whether the theta is weighted.}
 
-\item{\code{active}}{A character. Stores the name of the active theta type.
-Used by \code{updateCutoffs}.}
+\item{\code{weights}}{A matrix. If weighted, stores the limma-based weights.}
+
+\item{\code{active}}{A character. Stores the name of the active theta type.}
 
 \item{\code{theta}}{A data.frame. Stores the pairwise theta measurements.}
 

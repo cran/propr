@@ -1,3 +1,33 @@
+## propr 3.1.1
+---------------------
+* New vignette to discuss F-statistics
+* Modified `propd` methods
+    * Add `suppressWarnings` to `compositions::acomp` call
+
+## propr 3.1.0
+---------------------
+* Modified `propd` methods
+    * The `propd` function no longer calls `updateCutoffs`
+    * The `calculateTheta` function no longer calculates F-statistic
+    * Update vignette to reflect these changes
+    * Object now stores weights if weighted
+* Modified `calculateTheta`
+    * Added `weights` argument to pass pre-computed weights
+    * Still calculates weights if `NA` weights argument
+    * Consolidated weighted and alpha lrv calls
+* Modified C++ backend
+    * Extend `lrv` to weighted alpha calls
+    * Added unit test for weighted alpha calls
+    * Merge `boxRcpp` with `lrv` and remove `boxRcpp`
+    * Merge `lrmRcpp` with `lrm` and remove `lrmRcpp`
+    * Rename `lrvMod` function to `omega`
+* New `updateF` function
+    * Added new `ivar2index` function used by `propr` and `updateF`
+    * Calculates 4 types of moderated F-statistics
+    * Calculates 4 types of non-moderated F-statistics
+    * Update `propd` documentation to reflect change
+    * Extend moderation to non-clr references
+
 ## propr 3.0.7
 ---------------------
 * New `corr` function calculates log-ratio based correlation
@@ -44,7 +74,7 @@
 ---------------------
 * Modified `propd` Class
     * Added `@weighted` slot now used by `updateCutoffs`
-* Implement backend for "weighted theta" calculation
+* Implement # Initialize @theta for "weighted theta" calculation
     * Added `wtmRcpp` for weighted mean calculation
     * Added `wtvRcpp` for weighted variance calculation
     * Added `lrm` function with optional weighted calculations

@@ -33,6 +33,13 @@
 #'  when the object is created, calling \code{updateCutoffs}
 #'  will use the same random seed each time.
 #'
+#' \code{updateF:}
+#'  Use the \code{propd} object to calculate the F-statistic
+#'  from theta as described in the Erb et al. 2017 manuscript
+#'  on differential proportionality. Optionally calculates a
+#'  moderated F-statistic using the limma-voom method. Supports
+#'  weighted and alpha transformed theta values.
+#'
 #' \code{plot:}
 #'  Plots the interactions between pairs as a network.
 #'  When plotting disjointed proportionality, red edges
@@ -118,9 +125,8 @@
 #' @slot group A character vector. Stores the original group labels.
 #' @slot alpha A double. Stores the alpha value used for transformation.
 #' @slot weighted A logical. Stores whether the theta is weighted.
-#'  Used by \code{updateCutoffs}.
+#' @slot weights A matrix. If weighted, stores the limma-based weights.
 #' @slot active A character. Stores the name of the active theta type.
-#'  Used by \code{updateCutoffs}.
 #' @slot theta A data.frame. Stores the pairwise theta measurements.
 #' @slot permutes A data.frame. Stores the shuffled group labels,
 #'  used to reproduce permutations of theta.
@@ -144,12 +150,14 @@
 #' @param weighted A boolean. Toggles whether to calculate
 #'  theta using \code{limma::voom} weights.
 #' @param p An integer. The number of permutation cycles.
-#' @param cutoff For \code{propd}, a numeric vector.
+#' @param cutoff For \code{updateCutoffs}, a numeric vector.
 #'  this argument provides the FDR cutoffs to test for theta.
 #'  For graph functions, a numeric scalar. This argument
 #'  indicates the maximum theta to include in the figure.
 #'  For graph functions, a large integer will instead
 #'  retrieve the top N pairs as ranked by theta.
+#' @param moderated For \code{updateF}, a boolean. Toggles
+#'  whether to calculate a moderated F-statistic.
 #' @param k An integer. The maximum number of PALs to index
 #'  when calculating \code{\link{pals}} in the network.
 #' @param reference A character string. A feature to use as the
@@ -179,6 +187,7 @@ setClass("propd",
            group = "character",
            alpha = "numeric",
            weighted = "logical",
+           weights = "matrix",
            active = "character",
            theta = "data.frame",
            permutes = "data.frame",
@@ -193,6 +202,9 @@ setClass("propd",
 setMethod("show", "propd",
           function(object){
 
+            cat(ifelse(object@weighted, "Weighted", "Not weighted"), "and",
+                ifelse(is.na(object@alpha), "not alpha-transformed", "alpha-transformed"), "\n")
+
             cat("@counts summary:",
                 nrow(object@counts), "subjects by", ncol(object@counts), "features\n")
 
@@ -205,7 +217,9 @@ setMethod("show", "propd",
             cat("@fdr summary:",
                 ncol(object@permutes), "iterations\n")
 
-            print(object@fdr)
+            if(nrow(object@fdr) > 0){
+              print(object@fdr)
+            }
 
             cat("See ?propd for object methods\n")
           }
@@ -213,8 +227,7 @@ setMethod("show", "propd",
 
 #' @rdname propd
 #' @export
-propd <- function(counts, group, alpha, p = 100, cutoff = NA,
-                  weighted = FALSE){
+propd <- function(counts, group, alpha, p = 100, weighted = FALSE){
 
   # Clean "count matrix"
   if(any(is.na(counts))) stop("Remove NAs from 'counts' before proceeding.")
@@ -230,30 +243,47 @@ propd <- function(counts, group, alpha, p = 100, cutoff = NA,
     ct[ct == 0] <- 1
   }
 
-  # Prepare theta results object
+  # Initialize @active, @weighted
   result <- new("propd")
-  result@theta <- calculateTheta(ct, group, alpha, weighted = weighted)
-  result@weighted <- weighted
   result@active <- "theta_d" # set theta_d active by default
+  result@weights <- as.matrix(NA)
+  result@weighted <- weighted
 
-  # Tally frequency of 0 counts
-  if(any(as.matrix(counts) == 0)){
-    message("Alert: Tabulating the presence of 0 counts.")
-    result@theta$Zeros <- ctzRcpp(as.matrix(counts)) # count 0s before replacement
+  # Initialize @weights
+  if(weighted){
+    message("Alert: Calculating limma-based weights.")
+    packageCheck("limma")
+    design <- matrix(0, nrow = nrow(ct), ncol = 2)
+    design[group == unique(group)[1], 1] <- 1
+    design[group == unique(group)[2], 2] <- 1
+    v <- limma::voom(t(counts), design = design)
+    result@weights <- t(v$weights)
   }
 
-  # Save important intermediate values
+  # Initialize @counts, @group, @alpha
   result@counts <- as.data.frame(ct)
   result@group <- as.character(group)
   if(!missing(alpha)){ result@alpha <- as.numeric(alpha)
   }else{ result@alpha <- as.numeric(NA) }
 
-  # Pre-compute group samples for permutation
+  # Initialize @permutes
   permutes <- as.data.frame(matrix(0, nrow = nrow(ct), ncol = p))
   for(col in 1:ncol(permutes)) permutes[, col] <- sample(1:nrow(ct))
   result@permutes <- permutes
 
-  # Round data to 14 decimal places
+  # Initialize @theta
+  result@theta <-
+    calculateTheta(result@counts, result@group, result@alpha,
+                   weighted = result@weighted,
+                   weights = result@weights)
+
+  # Initialize @theta -- Tally frequency of 0 counts
+  if(any(as.matrix(counts) == 0)){
+    message("Alert: Tabulating the presence of 0 counts.")
+    result@theta$Zeros <- ctzRcpp(as.matrix(counts)) # count 0s
+  }
+
+  # Initialize @theta -- Round data to 14 digits
   if(any(result@theta$theta > 1)){
     message("Alert: Theta rounded to 14 decimal digits.")
     result@theta$theta <- round(result@theta$theta, 14)
@@ -261,8 +291,9 @@ propd <- function(counts, group, alpha, p = 100, cutoff = NA,
     result@theta$theta_f <- round(result@theta$theta_f, 14)
   }
 
-  # Calculate FDR for cutoffs
-  result <- updateCutoffs(result, cutoff)
+  message("Alert: Use 'setActive' to select a theta type.")
+  message("Alert: Use 'updateCutoffs' to calculate FDR.")
+  message("Alert: Use 'updateF' to calculate F-stat.")
 
   return(result)
 }
@@ -294,7 +325,8 @@ setActive <- function(propd, what = "theta_d"){
   colnames(propd@theta)[i] <- "theta"
 
   propd@active <- what
-  message("Use 'updateCutoffs' to refresh FDR.")
+  message("Alert: Update FDR or F-stat manually.")
+
   return(propd)
 }
 
