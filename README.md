@@ -10,12 +10,13 @@ The bioinformatic evaluation of gene co-expression often begins with correlation
 library(devtools)
 devtools::install_github("tpq/propr")
 library(propr)
+?propr
 ```
 
 Further reading
 ---------------
 
-To learn more about proportionality, we refer the reader to the relevant literature.
+To learn more about proportionality, please see the vignettes and other relevant literature.
 
 ``` r
 citation("propr")
@@ -26,11 +27,18 @@ citation("propr")
     ## 
     ##   Quinn T, Richardson MF, Lovell D, Crowley T (2017) propr: An
     ##   R-package for Identifying Proportionally Abundant Features Using
-    ##   Compositional Data Analysis. bioRxiv: doi:10.1101/104935
+    ##   Compositional Data Analysis. Scientific Reports 7(16252):
+    ##   doi:10.1038/s41598-017-16520-0
     ## 
     ##   Erb I, Quinn T, Lovell D, Notredame C (2017) Differential
     ##   Proportionality - A Normalization-Free Approach To Differential
-    ##   Gene Expression. bioRxiv: doi:10.1101/134536
+    ##   Gene Expression. Proceedings of CoDaWork 2017, The 7th
+    ##   Compositional Data Analysis Workshop; available under bioRxiv
+    ##   134536: doi:10.1101/134536
+    ## 
+    ##   Quinn T, Erb I, Richardson MF, Crowley T (2017) Understanding
+    ##   sequencing data as compositions: an outlook and review. bioRxiv:
+    ##   doi:10.1101/206425
     ## 
     ##   Lovell D, Pawlowsky-Glahn V, Egozcue JJ, Marguerat S, Bahler J
     ##   (2015) Proportionality: A Valid Alternative to Correlation for
@@ -40,3 +48,7 @@ citation("propr")
     ##   Erb I, Notredame C (2016) How should we measure proportionality
     ##   on relative gene expression data? Theory Biosci 135(1):
     ##   doi:10.1007/s12064-015-0220-8
+    ## 
+    ## To see these entries in BibTeX format, use 'print(<citation>,
+    ## bibtex=TRUE)', 'toBibtex(.)', or set
+    ## 'options(citation.bibtex.max=999)'.

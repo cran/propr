@@ -43,14 +43,7 @@ setMethod("plot", signature(x = "propd", y = "missing"),
               }
             }
 
-            if(type == "theta_d" | type == "theta_f"){
-
-              g <- migraph.color(g, partners[x$lrm1 > x$lrm2], pairs[x$lrm1 > x$lrm2], "coral1") # red
-              g <- migraph.color(g, partners[x$lrm1 < x$lrm2], pairs[x$lrm1 < x$lrm2], "lightseagreen") # blue
-              message("Red: Pair has higher LRM in group ", group[1], " than in group ", group[2])
-              message("Blue: Pair has higher LRM in group ", group[2], " than in group ", group[1])
-
-            }else if(type == "theta_e"){
+            if(type == "theta_e" | type == "theta_h"){
 
               g <- migraph.color(g, partners[x$lrv1 < x$lrv2], pairs[x$lrv1 < x$lrv2], "coral1") # red
               g <- migraph.color(g, partners[x$lrv1 > x$lrv2], pairs[x$lrv1 > x$lrv2], "lightseagreen") # blue
@@ -59,7 +52,10 @@ setMethod("plot", signature(x = "propd", y = "missing"),
 
             }else{
 
-              stop("Provided theta type not supported.")
+              g <- migraph.color(g, partners[x$lrm1 > x$lrm2], pairs[x$lrm1 > x$lrm2], "coral1") # red
+              g <- migraph.color(g, partners[x$lrm1 < x$lrm2], pairs[x$lrm1 < x$lrm2], "lightseagreen") # blue
+              message("Red: Pair has higher LRM in group ", group[1], " than in group ", group[2])
+              message("Blue: Pair has higher LRM in group ", group[2], " than in group ", group[1])
             }
 
             # Optional coloring of nodes
@@ -231,10 +227,6 @@ geyser <- function(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE){
 
     packageCheck("plotly")
     return(plotly::ggplotly(g))
-
-  }else{
-
-    plot(g)
   }
 
   return(g)
@@ -274,10 +266,6 @@ bowtie <- function(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE){
 
     packageCheck("plotly")
     return(plotly::ggplotly(g))
-
-  }else{
-
-    plot(g)
   }
 
   return(g)
@@ -314,10 +302,6 @@ gemini <- function(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE){
 
     packageCheck("plotly")
     return(plotly::ggplotly(g))
-
-  }else{
-
-    plot(g)
   }
 
   return(g)
@@ -378,10 +362,6 @@ slice <- function(object, cutoff = 1000, reference, prompt = TRUE, plotly = FALS
 
     packageCheck("plotly")
     return(plotly::ggplotly(g))
-
-  }else{
-
-    plot(g)
   }
 
   return(g)
@@ -401,8 +381,8 @@ decomposed <- function(object, cutoff = 1000, prompt = TRUE){
   decomp[, 3] <- df$p1 * df$p2 * (df$LRM2 - df$LRM1)^2 / (df$p^2 * df$LRV)
 
   x <- suppressWarnings(compositions::acomp(decomp))
-  plot(x, pch = 20, col = grDevices::rgb(0.1, 0.1, 0.1, 0.1),
-       labels = c("group 1  ", "  group 2", "between-group"), axes = TRUE)
-
-  return(TRUE)
+  suppressWarnings(
+    plot(x, pch = 20, col = grDevices::rgb(0.1, 0.1, 0.1, 0.1),
+         labels = c("group 1  ", "  group 2", "between-group"), axes = TRUE)
+  )
 }

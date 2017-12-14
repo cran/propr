@@ -167,11 +167,8 @@ smear <- function(rho, prompt = TRUE, plotly = FALSE){
 
   if(plotly){
 
+    packageCheck("plotly")
     return(plotly::ggplotly(g))
-
-  }else{
-
-    plot(g)
   }
 
   return(g)
@@ -247,6 +244,7 @@ dendrogram <- function(rho, prompt = TRUE, plotly = FALSE){
 
   if(plotly){
 
+    packageCheck("plotly")
     p <- p + ggplot2::scale_fill_distiller(limits = c(-1, 1), name = "Proportionality",
                                            palette = "Spectral")
     return(plotly::subplot(px, p_empty, p, py, nrows = 2, margin = 0.01))
@@ -379,14 +377,13 @@ bucket <- function(rho, group, k, prompt = TRUE, plotly = FALSE){ # pronounced b
 
   if(plotly){
 
+    packageCheck("plotly")
     return(plotly::ggplotly(g))
 
   }else{
 
-    plot(g)
-
     if(!missing(k)){
-
+      plot(g)
       return(clust)
     }
   }
@@ -431,14 +428,13 @@ prism <- function(rho, k, prompt = TRUE, plotly = FALSE){
 
   if(plotly){
 
+    packageCheck("plotly")
     return(plotly::ggplotly(g))
 
   }else{
 
-    plot(g)
-
     if(!missing(k)){
-
+      plot(g)
       return(clust)
     }
   }
@@ -482,14 +478,13 @@ bokeh <- function(rho, k, prompt = TRUE, plotly = FALSE){
 
   if(plotly){
 
+    packageCheck("plotly")
     return(plotly::ggplotly(g))
 
   }else{
 
-    plot(g)
-
     if(!missing(k)){
-
+      plot(g)
       return(clust)
     }
   }
@@ -519,6 +514,7 @@ mds <- function(rho, group, prompt = TRUE, plotly = FALSE){
 
   if(plotly){
 
+    packageCheck("plotly")
     return(plotly::ggplotly(g))
 
   }else{
@@ -526,7 +522,6 @@ mds <- function(rho, group, prompt = TRUE, plotly = FALSE){
     g <- g + ggplot2::geom_text(
       ggplot2::aes_string(x = "PC1", y = "PC2", label = "ID", colour = "Group"),
       data = df, size = 3, vjust = -1)
-    plot(g)
   }
 
   return(g)
@@ -573,6 +568,7 @@ snapshot <- function(rho, prompt = TRUE, plotly = FALSE){
 
   if(plotly){
 
+    packageCheck("plotly")
     p <- p + ggplot2::scale_fill_distiller("*lr", palette = "Spectral")
     return(plotly::subplot(px, p_empty, p, py, nrows = 2, margin = 0.01))
 

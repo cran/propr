@@ -12,7 +12,7 @@
 
 <meta name="author" content="Thomas Quinn" />
 
-<meta name="date" content="2017-11-13" />
+<meta name="date" content="2017-12-15" />
 
 <title>An Introduction to Proportionality</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">An Introduction to Proportionality</h1>
 <h4 class="author"><em>Thomas Quinn</em></h4>
-<h4 class="date"><em>2017-11-13</em></h4>
+<h4 class="date"><em>2017-12-15</em></h4>
 
 
 
@@ -96,8 +96,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Let us begin by building an arbitrary dataset of 4 features (e.g., genes) measured across 100 subjects. In this example, the feature pairs “a” and “b” will show proportional change as will the feature pairs “c” and “d”.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">12345</span>)
 N &lt;-<span class="st"> </span><span class="dv">100</span>
-X &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">a=</span>(<span class="dv">1</span>:N), <span class="dt">b=</span>(<span class="dv">1</span>:N) *<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">10</span>, <span class="fl">0.1</span>),
-                <span class="dt">c=</span>(N:<span class="dv">1</span>), <span class="dt">d=</span>(N:<span class="dv">1</span>) *<span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">10</span>, <span class="fl">1.0</span>))</code></pre></div>
+X &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">a=</span>(<span class="dv">1</span><span class="op">:</span>N), <span class="dt">b=</span>(<span class="dv">1</span><span class="op">:</span>N) <span class="op">*</span><span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">10</span>, <span class="fl">0.1</span>),
+                <span class="dt">c=</span>(N<span class="op">:</span><span class="dv">1</span>), <span class="dt">d=</span>(N<span class="op">:</span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">10</span>, <span class="fl">1.0</span>))</code></pre></div>
 <p>Let <span class="math inline">\(D\)</span> represent any number of features measured across <span class="math inline">\(N\)</span> observations exposed to a binary or continuous event <span class="math inline">\(E\)</span>. For example, <span class="math inline">\(E\)</span> could represent differences in case-control status, treatment status, treatment dose, or time. These functions convert a “count matrix” with <span class="math inline">\(N\)</span> rows and <span class="math inline">\(D\)</span> columns into a proportionality matrix of <span class="math inline">\(D\)</span> rows and <span class="math inline">\(D\)</span> columns measuring proportionality for each feature pair. One can think of this matrix as analogous to a dissimilarity matrix (in the case of <span class="math inline">\(\phi\)</span>) or a correlation matrix (in the case of <span class="math inline">\(\rho\)</span>). Both functions return the proportionality matrix bundled within an object of the class <code>propr</code>. This object contains four key slots:</p>
 <ul>
 <li><code>@counts</code> A matrix. Stores the original “count matrix” input.</li>
@@ -116,12 +116,12 @@ phs &lt;-<span class="st"> </span><span class="kw">phis</span>(X, <span class="d
 <p>We have provided methods for indexing and subsetting objects belonging to the <code>propr</code> class. Using the familiar <code>[</code> method, we can efficiently index the proportionality matrix (i.e., the <code>@matrix</code> slot) based on an inequality operator and a reference value.</p>
 <p>In this first example, we use <code>[</code> to index the matrix by <span class="math inline">\(\rho &gt; .95\)</span>. This indexes the location of all values satisfying that inequality (i.e., in the lower left triangle of the matrix), and saves those indices to the <code>@pairs</code> slot. Indexing helps guide some of the bundled visualization methods in lieu of copy-on-modify subsetting. Note that indexing an already indexed object appends the new index to the previous index (via a union merge).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rho99 &lt;-<span class="st"> </span>rho[<span class="st">&quot;&gt;&quot;</span>, .<span class="dv">95</span>]
-rho99@pairs</code></pre></div>
+rho99<span class="op">@</span>pairs</code></pre></div>
 <pre><code>## [1]  2 12</code></pre>
 <p>Alternatively, using the <code>subset</code> method, we can subset an <em>entire</em> <code>propr</code> object based on a vector of feature indices or names. However, this method does copy-on-modify the proportionality matrix, making it potentially unsuitable for large datasets.</p>
 <p>In this second example, we subset by the feature names “a” and “b”.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rhoab &lt;-<span class="st"> </span><span class="kw">subset</span>(rho, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>))
-rhoab@matrix</code></pre></div>
+rhoab<span class="op">@</span>matrix</code></pre></div>
 <pre><code>##           [,1]      [,2]
 ## [1,] 1.0000000 0.9999151
 ## [2,] 0.9999151 1.0000000</code></pre>
