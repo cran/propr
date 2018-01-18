@@ -1,3 +1,14 @@
+## propr 3.1.4
+---------------------
+* Automatically set `@matrix` column names when using `propr`
+* Address notice by CRAN about using Suggests conditionally
+    * Vignette will no longer calculate theta when `weighted = TRUE`
+    * Tests for "Fstat" and "theta" now check for `limma`
+
+## propr 3.1.3
+---------------------
+* New `ratios` and `ratiosRcpp` functions recast matrix as feature ratios
+
 ## propr 3.1.2
 ---------------------
 * Rename "Calculating Differential Proportionality" vignette

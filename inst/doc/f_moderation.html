@@ -12,7 +12,7 @@
 
 <meta name="author" content="Thomas Quinn &amp; Ionas Erb" />
 
-<meta name="date" content="2017-12-15" />
+<meta name="date" content="2018-01-19" />
 
 <title>Moderating Differential Proportionality</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Moderating Differential Proportionality</h1>
 <h4 class="author"><em>Thomas Quinn &amp; Ionas Erb</em></h4>
-<h4 class="date"><em>2017-12-15</em></h4>
+<h4 class="date"><em>2018-01-19</em></h4>
 
 
 
@@ -79,9 +79,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>This vignette reviews the <span class="math inline">\(\theta\)</span> types and their variant definitions. It also discusses how to calculate an <span class="math inline">\(F\)</span>-statistic from <span class="math inline">\(\theta_d\)</span>. In presenting this, we provide details on how to moderate the <span class="math inline">\(F\)</span>-statistic using <code>voom</code> from the <code>limma</code> package. To keep this vignette tractable yet reproducible, we use a subset of the <code>iris</code> data set as an example.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(propr)
 <span class="kw">data</span>(iris)
-keep &lt;-<span class="st"> </span>iris<span class="op">$</span>Species <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;setosa&quot;</span>, <span class="st">&quot;versicolor&quot;</span>)
-counts &lt;-<span class="st"> </span>iris[keep, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>] <span class="op">*</span><span class="st"> </span><span class="dv">10</span>
-group &lt;-<span class="st"> </span><span class="kw">ifelse</span>(iris[keep, <span class="st">&quot;Species&quot;</span>] <span class="op">==</span><span class="st"> &quot;setosa&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</code></pre></div>
+keep &lt;-<span class="st"> </span>iris$Species %in%<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;setosa&quot;</span>, <span class="st">&quot;versicolor&quot;</span>)
+counts &lt;-<span class="st"> </span>iris[keep, <span class="dv">1</span>:<span class="dv">4</span>] *<span class="st"> </span><span class="dv">10</span>
+group &lt;-<span class="st"> </span><span class="kw">ifelse</span>(iris[keep, <span class="st">&quot;Species&quot;</span>] ==<span class="st"> &quot;setosa&quot;</span>, <span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)</code></pre></div>
 </div>
 <div id="the-three-types-of-theta" class="section level2">
 <h2>The three types of theta</h2>
@@ -98,8 +98,8 @@ group &lt;-<span class="st"> </span><span class="kw">ifelse</span>(iris[keep, <s
 <p>Likewise, we can calculate <span class="math inline">\(\theta\)</span> using both precision weights and the <span class="math inline">\(\alpha\)</span> transformation together. This requires a weighted and <span class="math inline">\(\alpha\)</span>-transformed approximation of the VLR (i.e., <span class="math inline">\(\textrm{waVLR}\)</span>) to use in conjunction with the <span class="math inline">\(\Omega\)</span> modifier from above:</p>
 <p><span class="math display">\[\theta_d(\textrm{X}, \textrm{Y}) = \frac{(\Omega_1)\textrm{waVLR}_1 + (\Omega_2)\textrm{waVLR}_2}{(\Omega)\textrm{waVLR}}\]</span></p>
 <p>When using the <code>propd</code> function, it is simple to calculate any variant state of <span class="math inline">\(\theta\)</span> To use the <span class="math inline">\(\alpha\)</span>-transformation, set the <code>alpha</code> argument to any positive number. To use precision weights, set the <code>weighted</code> argument to <code>TRUE</code>. Note that changing either of these arguments affects all <span class="math inline">\(\theta\)</span> calculations, not just <span class="math inline">\(\theta_d\)</span>. The user can access the intermediate precision weights via the <code>@weights</code> slot.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pd.nn &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">FALSE</span>)
-pd.wn &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">TRUE</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pd.nn &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pd.wn &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">TRUE</span>)
 pd.na &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">FALSE</span>, <span class="dt">alpha =</span> .<span class="dv">01</span>)
 pd.wa &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">TRUE</span>, <span class="dt">alpha =</span> .<span class="dv">01</span>)</code></pre></div>
 <p>We refer the reader to Erb et al. 2017 for an elaboration of the four variant states of <span class="math inline">\(\theta\)</span>.</p>
@@ -112,15 +112,11 @@ pd.wa &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group,
 <div id="calculating-the-f-statistic" class="section level2">
 <h2>Calculating the F-statistic</h2>
 <p>In the companion vignette, we show how it is possible to use the <code>updateCutoffs</code> function to calculate a false discovery rate (FDR) using permutations of the group assignments to generate an empiric null distribution of <span class="math inline">\(\theta\)</span> values. This method works for all <span class="math inline">\(\theta\)</span> types and variant states.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pd.nn &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">FALSE</span>)
-pd.wn &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">TRUE</span>)
-pd.na &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">FALSE</span>, <span class="dt">alpha =</span> .<span class="dv">01</span>)
-pd.wa &lt;-<span class="st"> </span><span class="kw">propd</span>(counts, group, <span class="dt">weighted =</span> <span class="ot">TRUE</span>, <span class="dt">alpha =</span> .<span class="dv">01</span>)</code></pre></div>
 <p>However, analysts may find it desirable or necessary to calculate a <span class="math inline">\(p\)</span>-value exactly. For this, we provide a relationship between <span class="math inline">\(\theta_d\)</span> and the <span class="math inline">\(F\)</span>-statistic:</p>
 <p><span class="math display">\[F = (n-2)\frac{1-\theta_d}{\theta_d}\]</span></p>
 <p>This relationship holds true regardless of whether precision weights or a power transformation is used. The <code>updateF</code> function calculates the <span class="math inline">\(F\)</span>-statistic from <span class="math inline">\(\theta_d\)</span>, appending an “Fstat” column to the <code>@theta</code> slot.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pd.nn &lt;-<span class="st"> </span><span class="kw">updateF</span>(pd.nn, <span class="dt">moderated =</span> <span class="ot">FALSE</span>)
-pd.nn<span class="op">@</span>theta<span class="op">$</span>Fstat</code></pre></div>
+pd.nn@theta$Fstat</code></pre></div>
 </div>
 <div id="moderating-the-f-statistic" class="section level2">
 <h2>Moderating the F-statistic</h2>

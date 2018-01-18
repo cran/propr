@@ -7,7 +7,7 @@
 #     library(ALDEx2)
 #
 #     data(mail)
-#     x <- aldex.clr(as.data.frame(t(mail)))
+#     x <- aldex.clr(as.data.frame(t(mail)), conds = rep("A", 5))
 #     y <- aldex.clr(as.data.frame(t(mail)), conds = rep("A", 5), denom = 2)
 #
 #     data(marg.abs)
