@@ -128,6 +128,8 @@
 #' @slot weights A matrix. If weighted, stores the limma-based weights.
 #' @slot active A character. Stores the name of the active theta type.
 #' @slot theta A data.frame. Stores the pairwise theta measurements.
+#' @slot Fivar ANY. Stores the reference used to moderate theta.
+#' @slot dfz A double. Stores the prior df used to moderate theta.
 #' @slot permutes A data.frame. Stores the shuffled group labels,
 #'  used to reproduce permutations of theta.
 #' @slot fdr A data.frame. Stores the FDR cutoffs for theta.
@@ -175,8 +177,8 @@
 #' @name propd
 #' @importFrom Rcpp sourceCpp
 #' @importFrom methods show new
+#' @importFrom stats var pf
 #' @importFrom utils head
-#' @importFrom stats var
 NULL
 
 #' @rdname propd
@@ -190,6 +192,8 @@ setClass("propd",
            weights = "matrix",
            active = "character",
            theta = "data.frame",
+           Fivar = "ANY",
+           dfz = "numeric",
            permutes = "data.frame",
            fdr = "data.frame"
          )
@@ -230,11 +234,15 @@ setMethod("show", "propd",
 propd <- function(counts, group, alpha, p = 100, weighted = FALSE){
 
   # Clean "count matrix"
+  # if(any(apply(counts, 2, function(x) all(x == 0)))){
+  #   stop("Remove components with all zeros before proceeding.")}
+  if(any(counts < 0)) stop("Data may not contain negative measurements.")
   if(any(is.na(counts))) stop("Remove NAs from 'counts' before proceeding.")
   if(class(counts) == "data.frame") counts <- as.matrix(counts)
   if(is.null(colnames(counts))) colnames(counts) <- as.character(1:ncol(counts))
   if(is.null(rownames(counts))) rownames(counts) <- as.character(1:nrow(counts))
-  if(missing(alpha)) alpha <- NA
+  if(missing(alpha)){ alpha <- NA
+  }else{ if(!is.na(alpha)) if(alpha == 0) alpha <- NA }
   ct <- counts
 
   # Replace zeros unless alpha is provided
@@ -248,6 +256,7 @@ propd <- function(counts, group, alpha, p = 100, weighted = FALSE){
   result@active <- "theta_d" # set theta_d active by default
   result@weights <- as.matrix(NA)
   result@weighted <- weighted
+  result@dfz <- 0
 
   # Initialize @weights
   if(weighted){
@@ -267,9 +276,11 @@ propd <- function(counts, group, alpha, p = 100, weighted = FALSE){
   }else{ result@alpha <- as.numeric(NA) }
 
   # Initialize @permutes
-  permutes <- as.data.frame(matrix(0, nrow = nrow(ct), ncol = p))
-  for(col in 1:ncol(permutes)) permutes[, col] <- sample(1:nrow(ct))
-  result@permutes <- permutes
+  if(p > 0){
+    permutes <- as.data.frame(matrix(0, nrow = nrow(ct), ncol = p))
+    for(col in 1:ncol(permutes)) permutes[, col] <- sample(1:nrow(ct))
+    result@permutes <- permutes
+  }
 
   # Initialize @theta
   result@theta <-

@@ -75,8 +75,8 @@ calculateTheta <- function(counts, group, alpha, lrv = NA, only = "all",
     lrm2 <- lrm(ct[group2,], W[group2,], weighted)
   }
 
-  # Replace NaN thetas (from VLR = 0) with 1
-  lrv0 <- lrv == 0
+  # Replace NaN thetas (from VLR = 0 or VLR = NaN) with 1
+  lrv0 <- is.na(lrv1) | is.na(lrv2) | is.na(lrv) | (lrv == 0) # aVLR triggers NaN
   replaceNaNs <- any(lrv0)
   if(replaceNaNs){
     if(firstpass) message("Alert: Replacing NaN theta values with 1.")
@@ -144,20 +144,34 @@ updateCutoffs <- function(propd, cutoff = seq(.05, .95, .3)){
 
     # Tally k-th thetas that fall below each cutoff
     shuffle <- propd@permutes[, k]
-    pkt <-
-      calculateTheta(propd@counts[shuffle, ], propd@group, propd@alpha,
-                     lrv, only = propd@active,
-                     weighted = propd@weighted,
-                     weights = propd@weights)
 
-    # Find number of theta less than cutoff
-    for(cut in 1:nrow(FDR)){
+    if(propd@active == "theta_mod"){
+
+      # Calculate theta_mod with updateF (using i-th permuted propd)
+      if(is.na(propd@Fivar)) stop("Please re-run 'updateF' with 'moderation = TRUE'.")
+      propdi <- suppressMessages(
+        propd(propd@counts[shuffle, ], group = propd@group, alpha = propd@alpha, p = 0,
+              weighted = propd@weighted))
+      propdi <- suppressMessages(
+        updateF(propdi, moderated = TRUE, ivar = propd@Fivar))
+      pkt <- propdi@theta$theta_mod
+
+    }else{
+
+      # Calculate all other thetas directly (using calculateTheta)
+      pkt <- suppressMessages(
+        calculateTheta(propd@counts[shuffle, ], propd@group, propd@alpha, lrv,
+                       only = propd@active, weighted = propd@weighted))
+    }
+
+    # Find number of permuted theta less than cutoff
+    for(cut in 1:nrow(FDR)){ # randcounts as cumsum
       FDR[cut, "randcounts"] <- FDR[cut, "randcounts"] + sum(pkt < FDR[cut, "cutoff"])
     }
   }
 
   # Calculate FDR based on real and permuted tallys
-  FDR$randcounts <- FDR$randcounts / p
+  FDR$randcounts <- FDR$randcounts / p # randcounts as mean
   for(cut in 1:nrow(FDR)){
     FDR[cut, "truecounts"] <- sum(propd@theta$theta < FDR[cut, "cutoff"])
     FDR[cut, "FDR"] <- FDR[cut, "randcounts"] / FDR[cut, "truecounts"]
@@ -190,11 +204,18 @@ updateF <- function(propd, moderated = FALSE, ivar = "clr"){
     use <- ivar2index(propd@counts, ivar)
 
     # Establish data with regard to a reference Z
-    X <- as.matrix(propd@counts)
+    if(any(propd@counts == 0)){
+      message("Alert: Building reference set with ivar and counts offset by 1.")
+      X <- as.matrix(propd@counts + 1)
+    }else{
+      message("Alert: Building reference set with ivar and counts.")
+      X <- as.matrix(propd@counts)
+    }
+
     logX <- log(X)
     z.set <- logX[, use, drop = FALSE]
     z.geo <- rowMeans(z.set)
-    if(any(z.geo == 0)) stop("Zeros present in reference set.")
+    if(any(exp(z.geo) == 0)) stop("Zeros present in reference set.")
     z.lr <- as.matrix(sweep(logX, 1, z.geo, "-"))
     z <- exp(z.geo)
 
@@ -209,54 +230,33 @@ updateF <- function(propd, moderated = FALSE, ivar = "clr"){
     param <- limma::lmFit(v, design)
     param <- limma::eBayes(param)
     z.df <- param$df.prior
+    propd@dfz <- param$df.prior
     z.s2 <- param$s2.prior
 
-    # Extract weights for "pure" data
-    if(propd@weighted){
-
-      # Calculate weights w.r.t. reference Z -- used by lrz if weighted
-      message("Alert: Calculating weight of reference set.")
-      W.pt <- sweep(propd@weights, 1, rowSums(propd@weights), "/")
-      W.z <- (rowMeans(W.pt[,use] * logX[,use] * length(use))) / (rowMeans(logX[,use]))
-      W <- propd@weights * W.z
-
-      p1 <- colSums(W[group1,]) - colSums(W[group1,]^2) / colSums(W[group1,])
-      p2 <- colSums(W[group2,]) - colSums(W[group2,]^2) / colSums(W[group2,])
-      p <- colSums(W) - colSums(W^2) / colSums(W)
-
-    }else{
-
-      message("Alert: Provided theta not already weighted.")
-      W <- as.matrix(propd@counts) # not used by lrz
-      p1 <- n1 - 1
-      p2 <- n2 - 1
-      p <- n1 + n2 - 1
-    }
-
-    # Calculate per-feature variances w.r.t. Z -- changes with theta type
-    z.var1 <- lrz(X[group1,], W[group1,], z[group1],
-                  propd@weighted, propd@alpha)
-    z.var2 <- lrz(X[group2,], W[group2,], z[group2],
-                  propd@weighted, propd@alpha)
-    z.pool <- (p1 * z.var1 + p2 * z.var2) / p
-
-    # Call Rcpp function to calculate z.mod -- always the same
-    labs <- labRcpp(length(z.pool))
-    mod <- 2 * z.s2 - z.pool[labs$Partner] - z.pool[labs$Pair]
+    # Calculate simple moderation term based only on LRV
+    mod <- z.df * z.s2 / propd@theta$lrv
 
     # Moderate F-statistic
-    mod <- mod / (propd@theta$lrv * propd@theta$theta * (1 + (n1 + n2)/z.df))
-    Fprime <- (1 - propd@theta$theta) / (propd@theta$theta * (1 + mod))
-    Fstat <- (n1 + n2 - 2) * Fprime
+    propd@Fivar <- ivar # used by updateCutoffs
+    Fprime <- (1 - propd@theta$theta) * (n1 + n2 + z.df) /
+      ((n1 + n2) * propd@theta$theta + mod)
+    Fstat <- (n1 + n2 + z.df - 2) * Fprime
     theta_mod <- 1 / (1 + Fprime)
 
   }else{
 
+    propd@Fivar <- NA # used by updateCutoffs
     Fstat <- (n1 + n2 - 2) * (1 - propd@theta$theta) / propd@theta$theta
     theta_mod <- 0
   }
 
   propd@theta$theta_mod <- theta_mod
   propd@theta$Fstat <- Fstat
+
+  # Calculate unadjusted p-value (d1 = K - 1; d2 = N - K)
+  K <- length(unique(propd@group))
+  N <- n1 + n2 + propd@dfz
+  propd@theta$Pval <- pf(Fstat, K - 1, N - K, lower.tail = FALSE)
+
   return(propd)
 }

@@ -1,3 +1,37 @@
+## propr 3.1.8
+---------------------
+* Modified `propd` methods
+    * Users can now disable alpha transformation by setting `alpha = 0`
+    * Improve `NaN` theta value replacement with 1
+    * Modified `updateF` for `moderated = TRUE`
+        * Now offsets counts by 1 to prevent zeros in reference set
+        * Now correctly checks for zeros in reference set
+
+## propr 3.1.7
+---------------------
+* Check `propr` and `propd` input for negative counts
+* Modified `propd` methods
+    * Add `dfz` slot to the `propd` class (defaults to 0)
+        * Have `updateF` populate `dfz` slot if moderated
+        * Use `dfz` to calculate p-value from F-stat
+    * Implement revised F-stat moderation
+        * Now uses simple moderation term based only on LRV
+        * Update `test-Fstat.R` to reflect changes
+
+## propr 3.1.6
+---------------------
+* Modified `propd` methods
+    * Allow `p = 0` when initializing `propd` objects
+    * Have `calculateTheta` compute new weights each permutation
+
+## propr 3.1.5
+---------------------
+* Update `propr` to work with Rcpp >= 0.12.12
+* Modified `propd` methods
+    * All out-of-bounds theta_mod replaced with 1
+    * Add `@Fivar` slot to the `propd` class
+    * Extend `updateCutoffs` to `theta_mod`
+
 ## propr 3.1.4
 ---------------------
 * Automatically set `@matrix` column names when using `propr`
