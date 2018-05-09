@@ -1,3 +1,37 @@
+## propr 3.5.1
+---------------------
+* Update CITATION file and README
+
+## propr 3.5.0
+---------------------
+* Update alpha-transformation routine
+    * Update `lrm` C++ code
+        * Clone `Yfull` and set to power of alpha
+        * Add argument `Wfull` for complete weights (and check)
+        * Update calls to pass `Wfull` if provided
+        * Implement new non-weighted alpha-transformed means
+        * Implement new weighted alpha-transformed means
+        * Revise alpha-based unit tests
+    * Update `lrv` C++ code
+        * Clone `Yfull` and set to power of alpha
+        * Add argument `Wfull` for complete weights (and check)
+        * Update calls to pass `Wfull` if provided
+        * Implement new non-weighed alpha-transformed variances
+        * Implement new weighted alpha-transformed variances
+        * Revise alpha-based unit tests
+    * Remove `lrz` function
+
+## propr 3.2.0
+---------------------
+* Prepare alpha-transformation routine for update
+    * Update `lrm` C++ code
+        * Add argument `a` and prepare code for alpha-based lrm
+        * Add argument `Yfull` for complete data (and check)
+        * Update calls to pass `Yfull` if provided
+    * Update `lrv` C++ code
+        * Add argument `Yfull` for complete data (and check)
+        * Update calls to pass `Yfull` if provided
+
 ## propr 3.1.9
 ---------------------
 * Update C++ code to use `&&` and `||` instead of `&` and `|`
