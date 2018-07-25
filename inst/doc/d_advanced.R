@@ -34,11 +34,11 @@ pairs(propr:::proprCLR(Y[, 1:4])) # relative clr-transformation
 ## ---- dpi = 66, fig.show = "hold"----------------------------------------
 pairs(propr:::proprCLR(X)) # absolute clr-transformation
 
-## ---- dpi = 66, fig.show = "hold"----------------------------------------
-perb(Y[, 1:4])@matrix # relative proportionality with clr
+## ---- dpi = 66, fig.show = "hold", message = FALSE-----------------------
+propr(Y[, 1:4])@matrix # relative proportionality with clr
 
-## ---- dpi = 66, fig.show = "hold"----------------------------------------
-perb(X)@matrix # absolute proportionality with clr
+## ---- dpi = 66, fig.show = "hold", message = FALSE-----------------------
+propr(X)@matrix # absolute proportionality with clr
 
 ## ---- dpi = 66, fig.show = "hold"----------------------------------------
 pairs(propr:::proprALR(Y, ivar = 5)) # relative alr
@@ -46,14 +46,14 @@ pairs(propr:::proprALR(Y, ivar = 5)) # relative alr
 ## ---- dpi = 66, fig.show = "hold"----------------------------------------
 pairs(X[, 1:4]) # absolute data
 
-## ---- dpi = 66-----------------------------------------------------------
-perb(Y, ivar = 5)@matrix # relative proportionality with alr
+## ---- dpi = 66, message = FALSE------------------------------------------
+propr(Y, ivar = 5)@matrix # relative proportionality with alr
 
 ## ---- dpi = 66-----------------------------------------------------------
 pairs(propr:::proprALR(X, ivar = 1)) # new relative alr
 
-## ---- dpi = 66-----------------------------------------------------------
-perb(X, ivar = 1)@matrix # new relative proportionality with alr
+## ---- dpi = 66, message = FALSE------------------------------------------
+propr(X, ivar = 1)@matrix # new relative proportionality with alr
 
 ## ------------------------------------------------------------------------
 citation("propr")

@@ -1,4 +1,4 @@
-## ---- dpi = 66-----------------------------------------------------------
+## ---- dpi = 66, message = FALSE------------------------------------------
 library(propr)
 data(iris)
 keep <- iris$Species %in% c("setosa", "versicolor")

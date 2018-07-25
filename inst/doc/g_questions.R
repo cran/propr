@@ -6,7 +6,7 @@
 #  rho <- propr::aldex2propr(x, how = "rho")
 
 ## ---- eval = FALSE-------------------------------------------------------
-#  rho <- perb(caneToad.counts, ivar = "iqlr")
+#  rho <- propr(caneToad.counts, metric = "rho", ivar = "iqlr")
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  data(caneToad.counts)

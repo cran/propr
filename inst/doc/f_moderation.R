@@ -15,7 +15,7 @@ pd.nn <- propd(counts, group, weighted = FALSE)
 
 ## ---- message = FALSE, eval = FALSE--------------------------------------
 #  pd.nn <- updateF(pd.nn, moderated = FALSE)
-#  pd.nn@theta$Fstat
+#  pd.nn@results$Fstat
 
 ## ---- message = FALSE, eval = FALSE--------------------------------------
 #  pd.nn <- updateF(pd.nn, moderated = TRUE, ivar = "clr")

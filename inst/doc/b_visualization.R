@@ -9,14 +9,14 @@ data(caneToad.groups)
 data(top.counts)
 data(top.lr)
 best <- new("propr")
-best@counts <- top.counts
-best@logratio <- top.lr
+best@counts <- as.data.frame(top.counts)
+best@logratio <- as.data.frame(top.lr)
 best@matrix <- propr:::lr2rho(top.lr)
 best <- best[">", .995]
 
 ## ---- dpi = 66, eval = FALSE---------------------------------------------
 #  keep <- apply(caneToad.counts, 2, function(x) sum(x >= 10) >= 10)
-#  rho <- perb(caneToad.counts, select = keep)
+#  rho <- propr(caneToad.counts, metric = "rho", select = keep)
 
 ## ---- dpi = 66, eval = FALSE---------------------------------------------
 #  best <- rho[">", .995]
