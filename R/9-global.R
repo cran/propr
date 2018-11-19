@@ -25,18 +25,64 @@ updateCutoffs <- function(object, cutoff = seq(.05, .95, .3)){
   }
 }
 
-#' Recast Matrix as Feature Ratios
+#' Make Long Data from Wide Data
+#'
+#' @param wide A data set in wide format.
+#'
+#' @return A data set in long format.
+#'
+#' @export
+wide2long <- function(wide){
+
+  # Force column names
+  if(is.null(colnames(wide))){
+    colnames(wide) <- paste0("Col", 1:ncol(wide))
+  }
+
+  # Force row names
+  if(is.null(rownames(wide))){
+    rownames(wide) <- as.character(rownames(wide))
+  }
+
+  df <- data.frame("value" = as.vector(as.matrix(wide)))
+  df$variable <- unlist(lapply(colnames(wide), function(x) rep(x, nrow(wide))))
+  df$id <- rownames(wide)
+  return(df)
+}
+
+#' Recast Matrix as Feature (Log-)Ratios
 #'
 #' The \code{ratios} function recasts a matrix with N feature columns
-#'  as a new matrix with N * (N - 1) / 2 feature ratio columns.
+#'  as a new matrix with N * (N - 1) / 2 feature (log-)ratio columns.
+#'
+#' When the \code{alpha} argument is provided, this function returns
+#'  the (log-)ratios as \code{(partner^alpha - pair^alpha) / alpha}.
 #'
 #' @param matrix A matrix. The data to recast.
-#' @return A matrix.
+#' @param alpha A double. See vignette for details. Leave missing
+#'  to skip Box-Cox transformation.
+#' @return A matrix of (log-)ratios.
 #' @export
-ratios <- function(matrix){
+ratios <- function(matrix, alpha = NA){
 
   lab <- labRcpp(ncol(matrix))
-  ratios <- matrix[, lab$Partner] / matrix[, lab$Pair]
+
+  # Replace count zeros with 1 if appropriate
+  if(any(as.matrix(matrix) == 0) & is.na(alpha)){
+    message("Alert: Replacing 0s with next smallest value.")
+    zeros <- matrix == 0
+    matrix[zeros] <- min(matrix[!zeros])
+  }
+
+  # Get (log-)ratios [based on alpha]
+  if(is.na(alpha)){
+    ratios <- log(matrix[, lab$Partner] / matrix[, lab$Pair])
+  }else{
+    message("Alert: Using alpha transformation to approximate log-ratios.")
+    ratios <- (matrix[, lab$Partner]^alpha - matrix[, lab$Pair]^alpha) / alpha
+  }
+
+  # Name columns
   if(!is.null(colnames(matrix))){
     colnames(ratios) <-
       paste0(colnames(matrix)[lab$Partner],

@@ -6,7 +6,6 @@
 \alias{plot,propr,missing-method}
 \alias{smear}
 \alias{dendrogram}
-\alias{slate}
 \alias{bucket}
 \alias{prism}
 \alias{bokeh}
@@ -15,12 +14,11 @@
 \alias{cytescape}
 \alias{propd2propr}
 \alias{plot,propd,missing-method}
-\alias{shale}
 \alias{geyser}
 \alias{bowtie}
 \alias{gemini}
-\alias{slice}
 \alias{decomposed}
+\alias{parallel}
 \title{Visualize Proportionality}
 \usage{
 \S4method{plot}{propr,missing}(x, y, prompt = TRUE, plotly = FALSE)
@@ -28,8 +26,6 @@
 smear(rho, prompt = TRUE, plotly = FALSE)
 
 dendrogram(rho, prompt = TRUE, plotly = FALSE)
-
-slate(rho, k, prompt = TRUE, plotly = FALSE)
 
 bucket(rho, group, k, prompt = TRUE, plotly = FALSE)
 
@@ -48,17 +44,16 @@ propd2propr(object, ivar)
 \S4method{plot}{propd,missing}(x, y, cutoff = 1000, col1, col2, propr,
   prompt = TRUE, d3 = FALSE, plotSkip = FALSE)
 
-shale(object, cutoff = 1000, k, prompt = TRUE, clean = FALSE)
-
 geyser(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE)
 
 bowtie(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE)
 
 gemini(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE)
 
-slice(object, cutoff = 1000, reference, prompt = TRUE, plotly = FALSE)
+decomposed(object, cutoff = 1000)
 
-decomposed(object, cutoff = 1000, prompt = TRUE)
+parallel(object, cutoff = 1000, include = NA, or = TRUE,
+  plotly = FALSE)
 }
 \arguments{
 \item{x}{A \code{propr} or \code{propd} object.}
@@ -74,14 +69,14 @@ a dynamic plot using the \code{plotly} package.}
 
 \item{rho}{A \code{propr} or \code{propd} object.}
 
+\item{group}{A character vector. Group or sub-group memberships,
+ordered according to the row names in \code{counts}.}
+
 \item{k}{An integer. For \code{propr} methods, the number
 of co-clusters (where all pairs receive a specified color
 if and only if both members belong to same the cluster).
 For \code{propd} methods, the maximum number of PALs to index
 when calculating \code{\link{pals}} in the network.}
-
-\item{group}{A character vector. Group or sub-group memberships,
-ordered according to the row names in \code{counts}.}
 
 \item{object}{A \code{propr} or \code{propd} object.}
 
@@ -112,12 +107,13 @@ retrieve the top N pairs as ranked by theta.}
 the network graph without plotting it.
 Used by \code{\link{pals}}.}
 
-\item{clean}{A boolean. Toggles whether to remove pairs
-with "Bridged" or "Missing" PALs. Used by \code{geyser},
-\code{bowtie}, and \code{gemini}.}
+\item{include}{This argument indicates which features by
+name should belong to a pair for that pair to get included
+in the results. Subset performed by
+\code{Partner \%in\% subset | Pair \%in\% subset}.}
 
-\item{reference}{A character string. A feature to use as the
-denominator reference when comparing log-ratio abundances.}
+\item{or}{A boolean. If \code{FALSE}, \code{include} subsets
+by \code{Partner \%in\% subset & Pair \%in\% subset}.}
 }
 \description{
 Visualize proportionality and differential proportionality.
@@ -141,17 +137,6 @@ Visualize proportionality and differential proportionality.
  in \code{@pairs}, unless no pairs are indexed.
  Heatmap intensity is not scaled.
  Returns a \code{dendrogram} object.
-
-
-\code{slate:}
- Builds a table of VLR, VLS, and proportionality
- for each feature pair in a \code{propr} object. If the
- argument \code{k} is provided, the table will also
- include co-cluster membership.
- Returns a \code{data.frame} of all pairwise relationships.
- If the argument \code{k} is provided, returns a list of
- the \code{data.frame} of pairwise relationships and the
- cluster membership.
 
 
 \code{bucket:}
@@ -239,25 +224,6 @@ Visualize proportionality and differential proportionality.
  network visualization tool like Cytoscape.
 
 
-\code{shale:}
- Builds a table of within-group and total log-ratio
- variances, log-ratio means, and PALs (see: \code{\link{pals}}).
- If the argument \code{k} is provided, the table will
- label at most \code{k} top PALs. Just as each node
- gets assigned a PAL, \code{shale} aims to assign
- each edge a PAL. Edges that have a top PAL as one
- and only one of their nodes get assigned that PAL.
- Edges that have top PALs as both of their nodes
- get assigned "Bridged". Edges without a top PAL
- as one of their nodes will get assigned a PAL if
- either (a) both nodes have the same neighbor PAL
- or (b) one node has a "Missing" neighbor PAL.
- The \code{cutoff} argument guides the maximum value of
- theta above which to exclude the pair. A large integer
- \code{cutoff} will instead retrieve the top N pairs as
- ranked by theta.
-
-
 \code{geyser:}
  Plots indexed pairs based on the within-group
  log-ratio variance (VLR) for each group. Pairs near the
@@ -294,16 +260,16 @@ Visualize proportionality and differential proportionality.
  (see: \code{\link{pals}}).
 
 
-\code{slice:}
- Plots log-ratio counts relative to a \code{reference}
- node for all pairs that include the reference itself.
- This makes a useful adjunct function to visualize how
- features vary across samples relative to a PAL.
-
-
 \code{decomposed:}
  Plots the decomposition of log-ratio variance into
  (weighted) group variances and between-group variance.
  Useful for visualizing how a theta type selects pairs.
+
+
+\code{parallel:}
+ Plots the sample-wise log-ratio abundance across all
+ pairs selected by the provided cutoff. Use the
+ \code{reference} argument to subset the plot to only
+ include pairs that contain this reference.
 }
 

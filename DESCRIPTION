@@ -1,7 +1,7 @@
 Package: propr
 Title: Calculating Proportionality Between Vectors of Compositional
         Data
-Version: 4.0.0
+Version: 4.1.1
 URL: http://github.com/tpq/propr
 BugReports: http://github.com/tpq/propr/issues
 Authors@R: c(
@@ -22,15 +22,16 @@ Description: The bioinformatic evaluation of gene co-expression often begins wit
 License: GPL-2
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
+Encoding: UTF-8
 Depends: methods, R (>= 3.2.2)
 Imports: fastcluster, ggplot2, grDevices, igraph, Rcpp, stats, utils
 Suggests: ALDEx2, Biobase, cccrm, compositions, data.table, datasets,
         grid, ggdendro, knitr, limma, plotly, reshape2, rgl, rmarkdown,
-        SDMTools, testthat
+        SDMTools, testthat, vegan
 LinkingTo: Rcpp
 NeedsCompilation: yes
-Packaged: 2018-07-25 05:22:11 UTC; thom
+Packaged: 2018-11-18 23:46:53 UTC; thom
 Author: Thomas Quinn [aut, cre],
   David Lovell [aut],
   Ionas Erb [aut],
@@ -38,4 +39,4 @@ Author: Thomas Quinn [aut, cre],
   Greg Gloor [ctb]
 Maintainer: Thomas Quinn <contacttomquinn@gmail.com>
 Repository: CRAN
-Date/Publication: 2018-07-25 07:20:03 UTC
+Date/Publication: 2018-11-19 12:20:02 UTC

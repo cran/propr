@@ -124,7 +124,8 @@ setMethod("show", "propr",
 
 #' @rdname propr
 #' @export
-propr <- function(counts, metric = c("rho", "phi", "phs", "cor"), ivar = "clr", select, symmetrize = FALSE, alpha, p = 100){
+propr <- function(counts, metric = c("rho", "phi", "phs", "cor", "vlr"), ivar = "clr",
+                  select, symmetrize = FALSE, alpha, p = 100){
 
   # Clean "count matrix"
   # if(any(apply(counts, 2, function(x) all(x == 0)))){
@@ -140,8 +141,9 @@ propr <- function(counts, metric = c("rho", "phi", "phs", "cor"), ivar = "clr", 
 
   # Replace zeros unless alpha is provided
   if(any(as.matrix(counts) == 0) & is.na(alpha)){
-    message("Alert: Replacing 0s in \"count matrix\" with 1.")
-    ct[ct == 0] <- 1
+    message("Alert: Replacing 0s with next smallest value.")
+    zeros <- ct == 0
+    ct[zeros] <- min(ct[!zeros])
   }
 
   # Establish reference
@@ -164,7 +166,7 @@ propr <- function(counts, metric = c("rho", "phi", "phs", "cor"), ivar = "clr", 
     message("Alert: Saving alpha transformed counts to @logratio.")
     aX <- (ct^alpha - 1) / alpha
     aSet <- aX[, use, drop = FALSE]
-    ref <- rowMeans(aX)
+    ref <- rowMeans(aSet)
     lr <- sweep(aX, 1, ref, "-")
   }
 
@@ -194,6 +196,8 @@ propr <- function(counts, metric = c("rho", "phi", "phs", "cor"), ivar = "clr", 
     mat <- lr2phs(lr)
   }else if(metric == "cor"){
     mat <- stats::cor(lr)
+  }else if(metric == "vlr"){
+    mat <- lrv
   }else{
     stop("Provided 'metric' not recognized.")
   }

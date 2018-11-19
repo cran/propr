@@ -19,8 +19,7 @@ data(pd.d, package = "propr") # top 1000 disjointed pairs
 data(pd.e, package = "propr") # top 1000 emergent pairs
 
 ## ---- dpi = 66, message = FALSE, fig.keep = "last"-----------------------
-tab <- shale(pd.d)
-head(round(tab[, c("Partner", "Pair", "theta", "LRV", "LRV1", "LRV2", "LRM1", "LRM2")], 2))
+tab <- getResults(pd.d)
 plot(pd.d@counts[, 39], pd.d@counts[, 37], col = ifelse(pd.d@group == "WA", "red", "blue"))
 grp1 <- pd.d@group == "WA"
 grp2 <- pd.d@group != "WA"
@@ -32,8 +31,7 @@ plot(pd.d@counts[, 37] / pd.d@counts[, 39],
      col = ifelse(pd.d@group == "WA", "red", "blue"))
 
 ## ---- dpi = 66, fig.keep = "last"----------------------------------------
-tab <- shale(pd.e)
-head(round(tab[, c("Partner", "Pair", "theta", "LRV", "LRV1", "LRV2", "LRM1", "LRM2")], 2))
+tab <- getResults(pd.e)
 plot(pd.e@counts[, 106], pd.e@counts[, 2], col = ifelse(pd.d@group == "WA", "red", "blue"))
 grp1 <- pd.e@group == "WA"
 grp2 <- pd.e@group != "WA"
@@ -54,10 +52,10 @@ g <- plot(pd.d, cutoff = 1000)
 g <- plot(pd.e, cutoff = 1000)
 
 ## ---- dpi = 66, fig.keep = "first"---------------------------------------
-slice(pd.d, reference = "c19327_g2_i3")
+parallel(pd.d, cutoff = .15, include = "c19327_g2_i3")
 
 ## ---- dpi = 66, fig.keep = "first"---------------------------------------
-slice(pd.e, reference = "c27054_g5_i1")
+parallel(pd.e, include = "c27054_g5_i1")
 
 ## ---- dpi = 66, eval = FALSE---------------------------------------------
 #  data(caneToad.counts)

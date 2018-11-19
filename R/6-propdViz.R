@@ -10,8 +10,6 @@
 #' @return A named vector of PALs, ordered by decreasing
 #'  connectivity of the input nodes. The names of the result
 #'  refer to the input nodes themselves.
-#'
-#' @export
 pals <- function(object, k){
 
   # Get entire graph object
@@ -154,10 +152,9 @@ setMethod("plot", signature(x = "propd", y = "missing"),
           }
 )
 
-#' @rdname visualize
-#' @section \code{propd} Functions:
-#' \code{shale:}
-#'  Builds a table of within-group and total log-ratio
+#' Build \code{propd} Results Table
+#'
+#' Builds a table of within-group and total log-ratio
 #'  variances, log-ratio means, and PALs (see: \code{\link{pals}}).
 #'  If the argument \code{k} is provided, the table will
 #'  label at most \code{k} top PALs. Just as each node
@@ -173,7 +170,8 @@ setMethod("plot", signature(x = "propd", y = "missing"),
 #'  theta above which to exclude the pair. A large integer
 #'  \code{cutoff} will instead retrieve the top N pairs as
 #'  ranked by theta.
-#' @export
+#'
+#' @inheritParams all
 shale <- function(object, cutoff = 1000, k, prompt = TRUE, clean = FALSE){
 
   if(class(object) != "propd") stop("This function requires a 'propd' object.")
@@ -276,7 +274,9 @@ geyser <- function(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE){
     ggplot2::geom_abline(slope = 4/1, intercept = 0, color = "lightgrey") +
     ggplot2::geom_abline(slope = 1/4, intercept = 0, color = "lightgrey") +
     ggplot2::geom_abline(slope = 8/1, intercept = 0, color = "lightgrey") +
-    ggplot2::geom_abline(slope = 1/8, intercept = 0, color = "lightgrey")
+    ggplot2::geom_abline(slope = 1/8, intercept = 0, color = "lightgrey") +
+    ggplot2::theme(text = ggplot2::element_text(size=18),
+                   plot.title = ggplot2::element_text(size=24))
 
   if(plotly){
 
@@ -325,7 +325,9 @@ bowtie <- function(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE){
     ggplot2::geom_abline(slope = 4/1, intercept = 0, color = "lightgrey") +
     ggplot2::geom_abline(slope = 1/4, intercept = 0, color = "lightgrey") +
     ggplot2::geom_abline(slope = 8/1, intercept = 0, color = "lightgrey") +
-    ggplot2::geom_abline(slope = 1/8, intercept = 0, color = "lightgrey")
+    ggplot2::geom_abline(slope = 1/8, intercept = 0, color = "lightgrey") +
+    ggplot2::theme(text = ggplot2::element_text(size=18),
+                   plot.title = ggplot2::element_text(size=24))
 
   if(plotly){
 
@@ -374,73 +376,9 @@ gemini <- function(object, cutoff = 1000, k = 5, prompt = TRUE, plotly = FALSE){
     ggplot2::xlim(-1 * maxLimx, maxLimx) +
     ggplot2::ylim(-1 * maxLimy, maxLimy) +
     ggplot2::geom_abline(slope = 0, intercept = 0, color = "lightgrey") +
-    ggplot2::geom_vline(xintercept = 0, color = "lightgrey")
-
-  if(plotly){
-
-    packageCheck("plotly")
-    return(plotly::ggplotly(g))
-  }
-
-  return(g)
-}
-
-#' @rdname visualize
-#' @section \code{propd} Functions:
-#' \code{slice:}
-#'  Plots log-ratio counts relative to a \code{reference}
-#'  node for all pairs that include the reference itself.
-#'  This makes a useful adjunct function to visualize how
-#'  features vary across samples relative to a PAL.
-#' @export
-slice <- function(object, cutoff = 1000, reference, prompt = TRUE, plotly = FALSE){
-
-  if(missing(reference)) stop("Please provide a reference feature by name.")
-  if(!is.character(reference)) stop("Please provide a reference feature by name.")
-  df <- shale(object, cutoff, prompt = prompt)
-
-  # Retrieve log-ratio counts for each pair containing the reference
-  g1 <- object@group == unique(object@group)[1]
-  all <-
-    lapply(1:nrow(df),
-           function(i){
-
-             if(any(reference == df[i, c("Pair", "PartnerName")])){
-
-               if(df$PairName[i] == reference){
-
-                 bot <- df$PairName[i]
-                 top <- df$PartnerName[i]
-
-               }else if(df$PartnerName[i] == reference){
-
-                 bot <- df$PartnerName[i]
-                 top <- df$PairName[i]
-               }
-
-               lr1 <- log(object@counts[g1, top] / object@counts[g1, bot])
-               lr2 <- log(object@counts[!g1, top] / object@counts[!g1, bot])
-
-               data.frame(
-                 top, bot,
-                 "Group" = c(object@group[g1], object@group[!g1]),
-                 "lr" = c(lr1, lr2),
-                 "lrm" = c(mean(lr1), mean(lr2)),
-                 "lrv" = c(var(lr1), var(lr2))
-               )
-             }
-           })
-
-  # Clean data for ggplot2
-  final <- do.call("rbind", all)
-  final$label <- colnames(object@counts)[final$top]
-
-  g <-
-    ggplot2::ggplot(final, ggplot2::aes_string(x = "label", y = "lr", LRM = "lrm", LRV = "lrv")) +
-    ggplot2::geom_point(ggplot2::aes_string(col = "Group")) +
-    ggplot2::theme_bw() + ggplot2::scale_colour_brewer(palette = "Set2", name = "Group") +
-    ggplot2::xlab("Feature[i]") + ggplot2::ylab("Log-Ratio Abundance ( Feature[i] / Reference )") +
-    ggplot2::ggtitle(paste("Log-Ratio Abundances for Reference Slice:", reference))
+    ggplot2::geom_vline(xintercept = 0, color = "lightgrey") +
+    ggplot2::theme(text = ggplot2::element_text(size=18),
+                   plot.title = ggplot2::element_text(size=24))
 
   if(plotly){
 
@@ -458,20 +396,52 @@ slice <- function(object, cutoff = 1000, reference, prompt = TRUE, plotly = FALS
 #'  (weighted) group variances and between-group variance.
 #'  Useful for visualizing how a theta type selects pairs.
 #' @export
-decomposed <- function(object, cutoff = 1000, prompt = TRUE){
+decomposed <- function(object, cutoff = 1000){
 
   packageCheck("compositions")
-  df <- shale(object, cutoff = cutoff, prompt = prompt, clean = TRUE)
+  df <- getResults(object, cutoff)
 
   # Generalized decomposition of LRV for weighted theta types
   decomp <- matrix(0, nrow = nrow(df), ncol = 3)
-  decomp[, 1] <- df$p1 * df$LRV1 / (df$p * df$LRV)
-  decomp[, 2] <- df$p2 * df$LRV2 / (df$p * df$LRV)
-  decomp[, 3] <- df$p1 * df$p2 * (df$LRM2 - df$LRM1)^2 / (df$p^2 * df$LRV)
+  decomp[, 1] <- df$p1 * df$lrv1 / (df$p * df$lrv)
+  decomp[, 2] <- df$p2 * df$lrv2 / (df$p * df$lrv)
+  decomp[, 3] <- df$p1 * df$p2 * (df$lrm2 - df$lrm1)^2 / (df$p^2 * df$lrv)
 
   x <- suppressWarnings(compositions::acomp(decomp))
   suppressWarnings(
     plot(x, pch = 20, col = grDevices::rgb(0.1, 0.1, 0.1, 0.1),
          labels = c("group 1  ", "  group 2", "between-group"), axes = TRUE)
   )
+}
+
+#' @rdname visualize
+#' @section \code{propd} Functions:
+#' \code{parallel:}
+#'  Plots the sample-wise log-ratio abundance across all
+#'  pairs selected by the provided cutoff. Use the
+#'  \code{reference} argument to subset the plot to only
+#'  include pairs that contain this reference.
+#' @export
+parallel <- function(object, cutoff = 1000, include = NA, or = TRUE, plotly = FALSE){
+
+  df <- getRatios(object, cutoff, include = include, or = or, melt = TRUE)
+  df$variable <- factor(df$variable, levels = unique(df$variable))
+  df$group <- object@group
+
+  g <- ggplot2::ggplot(df, ggplot2::aes_string(x = "variable", y = "value", group = "id", col = "group")) +
+    ggplot2::geom_line() + ggplot2::theme_bw() +
+    ggplot2::scale_colour_brewer(palette = "Set2", name = "Group") +
+    ggplot2::xlab("Feature Pair") + ggplot2::ylab("Log-Ratio Abundance") +
+    ggplot2::ggtitle("Sample-wise Distribution of Log-Ratios Across Pairs") +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, hjust = 1)) +
+    ggplot2::theme(text = ggplot2::element_text(size=18),
+                   plot.title = ggplot2::element_text(size=24))
+
+  if(plotly){
+
+    packageCheck("plotly")
+    return(plotly::ggplotly(g))
+  }
+
+  return(g)
 }

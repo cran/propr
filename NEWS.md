@@ -1,3 +1,95 @@
+## propr 4.1.1
+---------------------
+* New `get` methods
+    * Add `getMatrix` to return propr or propd object as matrix
+
+## propr 4.1.0
+---------------------
+* Update `propd` methods
+    * Have `updateF` return NA theta_mod when `moderated = FALSE`
+    * Have `updateF` return BH-adjusted p-values
+* Update `get` methods
+    * Add `or` argument to `getResults`, toggles how `include` works
+    * Add `or` argument to `getNetwork`, toggles how `include` works
+    * Add `or` argument to `getRatios`, toggles how `include` works
+* Add methods
+    * New `getAdjacency` function returns adjacency matrix
+    * Uses `include` and `or` arguments
+
+## propr 4.0.9
+---------------------
+* Update `propd` methods
+    * Add theta_g routine to `calculateTheta`
+
+## propr 4.0.8
+---------------------
+* Add methods
+    * New `pra` method for principal ratio analysis
+    * Add `vegan` to NAMESPACE
+
+## propr 4.0.7
+---------------------
+* General maintenance
+    * Fix `getResults` warning
+    * Fix `getReference` bug
+
+## propr 4.0.6
+---------------------
+* Update `propr` methods
+    * Extend `propr` function and object to support `metric = "vlr"`
+* Update `propd` methods
+    * Add `setEmergent` warning for unequal group sizes
+    * Extend `parallel` to replace `slice`
+* Update `get` methods
+    * Now use only one color for `getNetwork` of theta_d (`cytescape` still uses two)
+    * New `include` argument for `getResults`, `getNetwork`, and `getRatios`
+
+## propr 4.0.5
+---------------------
+* Add methods
+    * New `parallel` method visualizes sample-wise log-ratios
+* Update `getResults` method
+    * For `propd` objects, any cutoff > 1 will return top N pairs
+    * Now always return data sorted according to outcome
+* Update `getRatios` method
+    * For `propd` objects, define ratio so Group 1 is at top
+
+## propr 4.0.4
+---------------------
+* Add methods
+    * Add `getReference` to find a component proportional to center
+* Update `getRatios` method
+    * Now subsets ratios to include only pairs returned by `getResults`
+* Update zero handling
+    * Package now replaces 0s with next smallest value (instead of 1)
+* General maintenance
+    * Stop `slate` and `shale` export
+
+## propr 4.0.3
+---------------------
+* Update `getNetwork` method
+    * Simplify use by guessing network type based on first argument
+    
+## propr 4.0.2
+---------------------
+* Update `propr` method
+    * Fix bug where alpha-based method always used `ivar = "clr"`
+* Update `ratios` method
+    * Add `alpha` argument to set LR = (partner^alpha - pair^alpha) / alpha
+    * Now returns log-ratios instead of ratios
+* Add methods
+    * Add `wide2long` to melt counts and log-ratios for visualization
+    * Add `getRatios` function to retrieve melted log-ratios
+* Add tests
+    * Add test for `getNetwork`
+    * Add test for `getRatios`
+
+## propr 4.0.1
+---------------------
+* Add methods
+    * Add `getResults` to retrieve results from a `propr` or `propd` object
+    * Add `getNetwork` to build networks from `propr` and `propd` objects
+
 ## propr 4.0.0
 ---------------------
 * Update `ivar2index` method

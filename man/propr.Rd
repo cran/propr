@@ -5,7 +5,6 @@
 \alias{propr}
 \alias{propr-class}
 \alias{show,propr-method}
-\alias{propr}
 \alias{phit}
 \alias{perb}
 \alias{phis}
@@ -19,8 +18,8 @@
 \usage{
 \S4method{show}{propr}(object)
 
-propr(counts, metric = c("rho", "phi", "phs", "cor"), ivar = "clr", select,
-  symmetrize = FALSE, alpha, p = 100)
+propr(counts, metric = c("rho", "phi", "phs", "cor", "vlr"),
+  ivar = "clr", select, symmetrize = FALSE, alpha, p = 100)
 
 phit(counts, ...)
 
@@ -42,7 +41,8 @@ updateCutoffs.propr(object, cutoff = seq(0.05, 0.95, 0.3))
 \item{object}{A \code{propr} or \code{propd} object.}
 
 \item{counts}{A data.frame or matrix. A "count matrix" with
-subjects as rows and features as columns.}
+subjects as rows and features as columns. Note that this matrix
+does not necessarily have to contain counts.}
 
 \item{metric}{A character string. The proportionality metric
 to calculate. Choose from "rho", "phi", or "phs".}

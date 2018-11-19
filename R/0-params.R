@@ -4,7 +4,8 @@
 #' A list of most parameters.
 #'
 #' @param counts A data.frame or matrix. A "count matrix" with
-#'  subjects as rows and features as columns.
+#'  subjects as rows and features as columns. Note that this matrix
+#'  does not necessarily have to contain counts.
 #' @param metric A character string. The proportionality metric
 #'  to calculate. Choose from "rho", "phi", or "phs".
 #' @param ivar A numeric scalar. Specifies reference feature(s)
@@ -65,8 +66,12 @@
 #'  to color \code{red} or \code{blue}, respectively.
 #' @param d3 A boolean. Use \code{rgl} to plot 3D network.
 #'
-#' @param reference A character string. A feature to use as the
-#'  denominator reference when comparing log-ratio abundances.
+#' @param include This argument indicates which features by
+#'  name should belong to a pair for that pair to get included
+#'  in the results. Subset performed by
+#'  \code{Partner \%in\% subset | Pair \%in\% subset}.
+#' @param or A boolean. If \code{FALSE}, \code{include} subsets
+#'  by \code{Partner \%in\% subset & Pair \%in\% subset}.
 #' @param clean A boolean. Toggles whether to remove pairs
 #'  with "Bridged" or "Missing" PALs. Used by \code{geyser},
 #'  \code{bowtie}, and \code{gemini}.
