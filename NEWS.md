@@ -1,3 +1,44 @@
+## propr 4.1.6
+---------------------
+* Update `propr` methods
+    * Fix error where `select` is used in presence of zeros
+* Update `propd` methods
+    * All methods now use `N + propd@dfz` degrees-of-freedom
+    * Omega no longer used for F-statistic by `updateF`
+    * Omega no longer used for cutoff by `qtheta`
+
+## propr 4.1.5
+---------------------
+* Update `qtheta` methods
+    * New `fdr` argument in `qtheta` method returns cutoff for FDR-adjusted p-value
+    * Remove `moderated` argument from `qtheta` method
+* Update `get` methods
+    * New `getAdj` offers a faster alternative to `getAdjacency`
+    * Have `getAdjacency` and `getMatrix` set diagonal to 0
+
+## propr 4.1.4
+---------------------
+* Update `propd` methods
+    * Return to using N-K degrees-of-freedom for `pf` and `qf` calls
+    * Have `qtheta` still use Omega (biased) to calculate theta from F-stat
+
+## propr 4.1.3
+---------------------
+* Update `propd` methods
+    * Now compute F-stat and F-mod using Omega (biased) for weighted thetas
+    * Now compute p-value from F-stat and F-mod using Omega (biased) degrees-of-freedom
+    * Update `qtheta` to use Omega (biased) degrees-of-freedom
+    * Remove superfluous `calculateTheta` input checks
+    * Stop export of `calculateTheta` function
+* Update C++ backend
+    * Add `Omega` function to compute population-level pre-factor
+    * Remove superfluous first argument to `omega` function
+
+## propr 4.1.2
+---------------------
+* New tests
+    * Add `getMatrix` test
+
 ## propr 4.1.1
 ---------------------
 * New `get` methods

@@ -16,16 +16,10 @@
 #'
 #' @return A data.frame of theta values if \code{only = "all"}.
 #'  Otherwise, this function returns a numeric vector.
-#'
-#' @export
-calculateTheta <- function(counts, group, alpha, lrv = NA, only = "all",
+calculateTheta <- function(counts, group, alpha = NA, lrv = NA, only = "all",
                            weighted = FALSE, weights = as.matrix(NA)){
 
   ct <- as.matrix(counts)
-  if(missing(alpha)) alpha <- NA
-  if(!is.character(group)) group <- as.character(group)
-  if(length(unique(group)) != 2) stop("Please use exactly two unique groups.")
-  if(length(group) != nrow(counts)) stop("Too many or too few group labels.")
   if(identical(lrv, NA)){ firstpass <- TRUE
   }else{ firstpass <- FALSE }
 
@@ -37,6 +31,7 @@ calculateTheta <- function(counts, group, alpha, lrv = NA, only = "all",
   # Calculate weights and lrv modifier
   if(weighted){
 
+    # Do not delete -- this is used by updateCutoffs.propd()
     if(is.na(weights[1,1])){
       message("Alert: Calculating limma-based weights.")
       packageCheck("limma")
@@ -48,9 +43,9 @@ calculateTheta <- function(counts, group, alpha, lrv = NA, only = "all",
     }
 
     W <- weights
-    p1 <- omega(ct[group1,], W[group1,])
-    p2 <- omega(ct[group2,], W[group2,])
-    p <- omega(ct, W)
+    p1 <- omega(W[group1,])
+    p2 <- omega(W[group2,])
+    p <- omega(W)
 
   }else{
 
@@ -211,12 +206,9 @@ updateF <- function(propd, moderated = FALSE, ivar = "clr"){
     stop("Make theta_d the active theta.")
   }
 
-  group1 <- propd@group == unique(propd@group)[1]
-  group2 <- propd@group == unique(propd@group)[2]
-  n1 <- sum(group1)
-  n2 <- sum(group2)
-
   if(moderated){
+
+    packageCheck("limma")
 
     # A reference is needed for moderation
     propd@counts # Zeros replaced unless alpha provided...
@@ -240,7 +232,6 @@ updateF <- function(propd, moderated = FALSE, ivar = "clr"){
 
     # Fit limma-voom to reference-based data
     message("Alert: Calculating weights with regard to reference.")
-    packageCheck("limma")
     z.sr <- t(exp(z.lr) * mean(z)) # scale counts by mean of reference
     design <- matrix(0, nrow = nrow(propd@counts), ncol = 2)
     design[propd@group == unique(propd@group)[1], 1] <- 1
@@ -257,15 +248,17 @@ updateF <- function(propd, moderated = FALSE, ivar = "clr"){
 
     # Moderate F-statistic
     propd@Fivar <- ivar # used by updateCutoffs
-    Fprime <- (1 - propd@results$theta) * (n1 + n2 + z.df) /
-      ((n1 + n2) * propd@results$theta + mod)
-    Fstat <- (n1 + n2 + z.df - 2) * Fprime
+    N <- length(propd@group) # population-level metric (i.e., N)
+    Fprime <- (1 - propd@results$theta) * (N + z.df) /
+      ((N) * propd@results$theta + mod)
+    Fstat <- (N + z.df - 2) * Fprime
     theta_mod <- 1 / (1 + Fprime)
 
   }else{
 
     propd@Fivar <- NA # used by updateCutoffs
-    Fstat <- (n1 + n2 - 2) * (1 - propd@results$theta) / propd@results$theta
+    N <- length(propd@group) # population-level metric (i.e., N)
+    Fstat <- (N - 2) * (1 - propd@results$theta) / propd@results$theta
     theta_mod <- as.numeric(NA)
   }
 
@@ -274,7 +267,7 @@ updateF <- function(propd, moderated = FALSE, ivar = "clr"){
 
   # Calculate unadjusted p-value (d1 = K - 1; d2 = N - K)
   K <- length(unique(propd@group))
-  N <- n1 + n2 + propd@dfz
+  N <- length(propd@group) + propd@dfz # population-level metric (i.e., N)
   propd@results$Pval <- pf(Fstat, K - 1, N - K, lower.tail = FALSE)
   propd@results$FDR <- p.adjust(propd@results$Pval, method = "BH")
 
@@ -286,37 +279,43 @@ updateF <- function(propd, moderated = FALSE, ivar = "clr"){
 #' This function uses the F distribution to calculate a cutoff of
 #'  theta for a p-value given by the \code{pval} argument.
 #'
+#' If the argument \code{fdr = TRUE}, this function returns the
+#'  empiric cutoff that corresponds to the FDR-adjusted p-value
+#'  stored in the \code{@@results$FDR} slot.
+#'
 #' @inheritParams all
 #' @param pval A p-value at which to calculate a theta cutoff.
+#' @param fdr A boolean. Toggles whether to calculate the theta
+#'  cutoff for an FDR-adjusted p-value.
 #'
 #' @return A cutoff of theta from [0, 1].
 #'
 #' @export
-qtheta <- function(propd, moderated = FALSE, pval = 0.05){
+qtheta <- function(propd, pval = 0.05, fdr = FALSE){
 
-  if(pval < 0 | pval > 1) stop("Provide a p-value cutoff from [0, 1].")
+  if(!"Fstat" %in% colnames(propd@results)){
+    stop("Please run updateF() on propd object before calling qtheta.")
+  }
 
-  K <- length(unique(propd@group))
-  N <- length(propd@group)
+  if(pval < 0 | pval > 1){
+    stop("Provide a p-value cutoff from [0, 1].")
+  }
 
-  if(moderated){
+  if(fdr){
 
-    propd <- suppressMessages(updateF(propd, moderated = TRUE))
-    z.df <- propd@dfz
-
-    Q <- qf(pval, K - 1, N + z.df - K, lower.tail = FALSE)
-    # # Fstat <- (n1 + n2 + z.df - 2) * Fprime
-    # # theta_mod <- 1 / (1 + Fprime)
-    # # Q = Fstat
-    # # Q = (n1 + n2 + z.df - 2) * Fprime
-    # # Fprime = 1/theta_mod - 1
-    R <- N - 2 + z.df
-    # # Q = R * (1/theta_mod - 1)
-    # # Q = R/theta_mod - R
-    theta_a05 <- R/(Q+R)
+    message("Alert: Returning an empiric cutoff based on the $FDR slot.")
+    index <- propd@results$FDR < pval
+    if(any(index)){
+      cutoff <- max(propd@results$theta[index])
+    }else{
+      stop("No pairs below p-value.")
+    }
 
   }else{
 
+    # Compute based on theory
+    K <- length(unique(propd@group))
+    N <- length(propd@group) + propd@dfz # population-level metric (i.e., N)
     Q <- qf(pval, K - 1, N - K, lower.tail = FALSE)
     # # Fstat <- (N - 2) * (1 - propd@theta$theta) / propd@theta$theta
     # # Q = Fstat
@@ -324,8 +323,8 @@ qtheta <- function(propd, moderated = FALSE, pval = 0.05){
     # # Q / (N-2) = (1/theta) - 1
     # # 1/theta = Q / (N-2) + 1 = Q(N-2)/(N-2)
     # # theta = (N-2)/(Q+(N-2))
-    theta_a05 <- (N-2)/(Q+(N-2))
+    cutoff <- (N-2)/(Q+(N-2))
   }
 
-  return(theta_a05)
+  return(cutoff)
 }
