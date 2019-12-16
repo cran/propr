@@ -1,145 +1,273 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="pandoc" />
+<title>Introduction</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<meta name="author" content="Thomas Quinn" />
-
-<meta name="date" content="2019-07-10" />
-
-<title>An Introduction to Proportionality</title>
-
-
-
-<style type="text/css">code{white-space: pre;}</style>
-<style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
   }
-})();
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+<!-- MathJax scripts -->
+<script type="text/javascript" src="https://cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 
 
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
 
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
 
 
 
 </head>
 
 <body>
-
-
-
-
-<h1 class="title toc-ignore">An Introduction to Proportionality</h1>
-<h4 class="author">Thomas Quinn</h4>
-<h4 class="date">2019-07-10</h4>
-
-
-
-<div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>The bioinformatic evaluation of gene co-expression often begins with correlation-based analyses. However, correlation lacks validity when applied to relative data, including count data generated by next-generation sequencing. This vignette describes three metrics of proportionality that measure dependence between relative features using compositional data analysis: <span class="math inline">\(\phi\)</span> (Lovell 2015), <span class="math inline">\(\rho\)</span> (Lovell 2015; Erb 2016), and <span class="math inline">\(\phi_s\)</span> (Erb 2016; Quinn 2017). Unlike correlation, proportionality gives the same result for both relative and absolute data. Meanwhile, pairs that are strongly proportional in relative space are also strongly correlated in absolute space. Proportionality helps avoid the pitfall of spurious correlation.</p>
-</div>
-<div id="theory" class="section level2">
+
+<p>The bioinformatic evaluation of gene co-expression often begins with correlation-based analyses. However, correlation lacks validity when applied to relative data, including count data generated by next-generation sequencing. This vignette describes three metrics of proportionality that measure dependence between relative features using compositional data analysis: \(\phi\) (Lovell 2015), \(\rho\) (Lovell 2015; Erb 2016), and \(\phi_s\) (Erb 2016; Quinn 2017). Unlike correlation, proportionality gives the same result for both relative and absolute data. Meanwhile, pairs that are strongly proportional in relative space are also strongly correlated in absolute space. Proportionality helps avoid the pitfall of spurious correlation.</p>
+
 <h2>Theory</h2>
-<p>Let <span class="math inline">\(A_i\)</span> and <span class="math inline">\(A_j\)</span> each represent a log-ratio transformed feature vector measured across <span class="math inline">\(N\)</span> samples. We then define the metrics <span class="math inline">\(\phi\)</span>, <span class="math inline">\(\rho\)</span>, and <span class="math inline">\(\phi_s\)</span>:</p>
-<p><span class="math display">\[\phi(A_i, A_j) = \frac{var(A_i - A_j)}{var(A_i)}\]</span></p>
-<p><span class="math display">\[\rho(A_i, A_j) = 1 - \frac{var(A_i - A_j)}{var(A_i) + var(A_j)}\]</span></p>
-<p><span class="math display">\[\phi_s(A_i, A_j) = \frac{var(A_i - A_j)}{var(A_i + A_j)}\]</span></p>
-<p>Log-ratio transformation is applied to each subject vector, <span class="math inline">\(x\)</span>, containing <span class="math inline">\(D\)</span> features (e.g., genes). In this vignette, we consider the centered log-ratio (clr) transformation and the additive log-ratio (alr) transformation. In clr-transformation, sample vectors undergo a transformation based on the logarithm of the ratio between the individual elements and the geometric mean of the vector, <span class="math inline">\(g(\textrm{x}) = \sqrt[D]{x_i...x_D}\)</span>. In alr-transformation, sample vectors undergo a transformation based on the logarithm of the ratio between the individual elements and chosen reference feature, <span class="math inline">\(x_D\)</span>. We define these accordingly:</p>
-<p><span class="math display">\[\textrm{clr(x)} = \left[\ln\frac{x_i}{g(\textrm{x})};...;\ln\frac{x_D}{g(\textrm{x})}\right]\]</span></p>
-<p><span class="math display">\[\textrm{alr(x)} = \left[\ln\frac{x_i}{x_D};...;\ln\frac{x_{D-1}}{x_D}\right]\]</span></p>
-<p>Note that this package also implements the interquartile log-ratio transformation (iqlr) as used by the <code>ALDEx2</code> package. For more information on integrating <code>propr</code> with <code>ALDEx2</code>, we refer the reader to the “Frequently Asked Questions” vignette.</p>
-</div>
-<div id="calculating-proportionality" class="section level2">
+
+<p>Let \(A_i\) and \(A_j\) each represent a log-ratio transformed feature vector measured across \(N\) samples. We then define the metrics \(\phi\), \(\rho\), and \(\phi_s\):</p>
+
+<p>\[\phi(A_i, A_j) = \frac{var(A_i - A_j)}{var(A_i)}\]</p>
+
+<p>\[\rho(A_i, A_j) = 1 - \frac{var(A_i - A_j)}{var(A_i) + var(A_j)}\]</p>
+
+<p>\[\phi_s(A_i, A_j) = \frac{var(A_i - A_j)}{var(A_i + A_j)}\]</p>
+
+<p>Log-ratio transformation is applied to each subject vector \(\textrm{x}\) with \(D\) features (e.g., genes or microbes). In this vignette, we consider the centered log-ratio (clr) transformation and the additive log-ratio (alr) transformation. In clr-transformation, sample vectors undergo a transformation based on the logarithm of the ratio between the individual elements and the geometric mean of the vector, \(g(\textrm{x}) = \sqrt[D]{x_i&hellip;x_D}\). In alr-transformation, sample vectors undergo a transformation based on the logarithm of the ratio between the individual elements and a chosen reference feature, \(x_D\). We define these accordingly:</p>
+
+<p>\[\textrm{clr(x)} = \left[\ln\frac{x_i}{g(\textrm{x})};&hellip;;\ln\frac{x_D}{g(\textrm{x})}\right]\]</p>
+
+<p>\[\textrm{alr(x)} = \left[\ln\frac{x_i}{x_D};&hellip;;\ln\frac{x_{D-1}}{x_D}\right]\]</p>
+
+<p>Note that this package also implements the interquartile log-ratio transformation (iqlr) as used by the <code>ALDEx2</code> package. For more information on integrating <code>propr</code> with <code>ALDEx2</code>, we refer the reader to the &ldquo;Frequently Asked Questions&rdquo; vignette.</p>
+
 <h2>Calculating proportionality</h2>
-<p>The measures <span class="math inline">\(\phi\)</span> and <span class="math inline">\(\rho\)</span> differ in three ways. First, the values of <span class="math inline">\(\phi\)</span> range from <span class="math inline">\([0, \infty)\)</span> (with lower <span class="math inline">\(\phi\)</span> values indicating more proportionality) while the values of <span class="math inline">\(\rho\)</span> range from <span class="math inline">\([-1, 1]\)</span> (with greater <span class="math inline">\(|\rho|\)</span> values indicating more proportionality and negative <span class="math inline">\(\rho\)</span> values indicating inverse proportionality). Second, <span class="math inline">\(\phi\)</span> lacks symmetry, although one can force symmetry by reflecting the lower left triangle of the matrix across the diagonal (toggled by the argument <code>symmetrize = TRUE</code>). Third, <span class="math inline">\(\rho\)</span> corrects for the individual variance of each feature in the pair, rather than for just one of the features. On the other hand, <span class="math inline">\(\phi_s\)</span> is a naturally symmetric variant of <span class="math inline">\(\phi\)</span> that also corrects for the individual variance of each feature in the pair.</p>
-<p>Let us begin by building an arbitrary dataset of 4 features (e.g., genes) measured across 100 subjects. In this example, the feature pairs “a” and “b” will show proportional change as will the feature pairs “c” and “d”.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">12345</span>)
-N &lt;-<span class="st"> </span><span class="dv">100</span>
-X &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">a=</span>(<span class="dv">1</span><span class="op">:</span>N), <span class="dt">b=</span>(<span class="dv">1</span><span class="op">:</span>N) <span class="op">*</span><span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">10</span>, <span class="fl">0.1</span>),
-                <span class="dt">c=</span>(N<span class="op">:</span><span class="dv">1</span>), <span class="dt">d=</span>(N<span class="op">:</span><span class="dv">1</span>) <span class="op">*</span><span class="st"> </span><span class="kw">rnorm</span>(N, <span class="dv">10</span>, <span class="fl">1.0</span>))</code></pre></div>
-<p>Let <span class="math inline">\(D\)</span> represent any number of features measured across <span class="math inline">\(N\)</span> observations exposed to a binary or continuous event <span class="math inline">\(E\)</span>. For example, <span class="math inline">\(E\)</span> could represent differences in case-control status, treatment status, treatment dose, or time. These functions convert a “count matrix” with <span class="math inline">\(N\)</span> rows and <span class="math inline">\(D\)</span> columns into a proportionality matrix of <span class="math inline">\(D\)</span> rows and <span class="math inline">\(D\)</span> columns measuring proportionality for each feature pair. One can think of this matrix as analogous to a dissimilarity matrix (in the case of <span class="math inline">\(\phi\)</span>) or a correlation matrix (in the case of <span class="math inline">\(\rho\)</span>). The <code>propr</code> function returns a proportionality matrix bundled within an object of the class <code>propr</code>. This object contains four key slots:</p>
+
+<p>The measures \(\phi\) and \(\rho\) differ in three ways. First, the values of \(\phi\) range from \([0, \infty)\) (with lower \(\phi\) values indicating more proportionality) while the values of \(\rho\) range from \([-1, 1]\) (with greater \(|\rho|\) values indicating more proportionality and negative \(\rho\) values indicating inverse proportionality). Second, \(\phi\) lacks symmetry, although one can force symmetry by reflecting the lower left triangle of the matrix across the diagonal (toggled by the argument <code>symmetrize = TRUE</code>). Third, \(\rho\) corrects for the individual variance of each feature in the pair, rather than for just one of the features. On the other hand, \(\phi_s\) is a naturally symmetric variant of \(\phi\) that also corrects for the individual variance of each feature in the pair. We advise against interpretting the negative proportionality directly; it does not always behave like one would expect!</p>
+
+<p>Let us begin by building an arbitrary data set of 4 features (e.g., genes) measured across 100 subjects. In this example, the feature pairs &ldquo;a&rdquo; and &ldquo;b&rdquo; will be highly proportional.</p>
+
+<pre><code class="r">set.seed(12345)
+N &lt;- 100
+X &lt;- data.frame(a=(1:N), b=(1:N) * rnorm(N, 10, 0.1),
+                c=(N:1), d=(N:1) * rnorm(N, 10, 1.0))
+</code></pre>
+
+<p>Let \(D\) represent any number of features measured across \(N\) observations exposed to a binary or continuous event (for example, case-control status, treatment status, treatment dose, or time). These functions convert a &ldquo;count matrix&rdquo; with \(N\) rows and \(D\) columns into a proportionality matrix of \(D\) rows and \(D\) columns measuring proportionality for each feature pair. One can think of this matrix as analogous to a dissimilarity matrix (in the case of \(\phi\)) or a correlation matrix (in the case of \(\rho\)). The <code>propr</code> function returns a proportionality matrix bundled within an object of the class <code>propr</code>. This object contains four key slots:</p>
+
 <ul>
-<li><code>@counts</code> A matrix. Stores the original “count matrix” input.</li>
-<li><code>@logratio</code> A matrix. Stores the log-ratio transformed “count matrix”.</li>
+<li><code>@counts</code> A matrix. Stores the original &ldquo;count matrix&rdquo; input.</li>
+<li><code>@logratio</code> A matrix. Stores the log-ratio transformed &ldquo;count matrix&rdquo;.</li>
 <li><code>@matrix</code> A matrix. Stores the proportionality metrics.</li>
 <li><code>@pairs</code> A vector. Indexes proportionality of interest.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(propr)
-phi &lt;-<span class="st"> </span><span class="kw">propr</span>(X, <span class="dt">metric =</span> <span class="st">&quot;phi&quot;</span>, <span class="dt">symmetrize =</span> <span class="ot">TRUE</span>)
-rho &lt;-<span class="st"> </span><span class="kw">propr</span>(X, <span class="dt">metric =</span> <span class="st">&quot;rho&quot;</span>, <span class="dt">ivar =</span> <span class="dv">0</span>)
-phs &lt;-<span class="st"> </span><span class="kw">propr</span>(X, <span class="dt">metric =</span> <span class="st">&quot;phs&quot;</span>, <span class="dt">ivar =</span> <span class="dv">0</span>)</code></pre></div>
+
+<pre><code class="r">library(propr)
+phi &lt;- propr(X, metric = &quot;phi&quot;, symmetrize = TRUE)
+rho &lt;- propr(X, metric = &quot;rho&quot;, ivar = 0)
+phs &lt;- propr(X, metric = &quot;phs&quot;, ivar = 0)
+</code></pre>
+
 <p>Note that the log-ratio transformation, by its nature, fails if the input data contain any zero values. By default, this function replaces all zero values with 1. Alternatively, the user may set the parameter <code>alpha</code> greater than zero to approximate log-ratios in the presence of zeros (via the Box-Cox transformation). However, the topic of zero replacement is controversial. Proceed carefully when analyzing data that contain zero values.</p>
-</div>
-<div id="how-proportional-is-proportional-enough" class="section level2">
+
 <h2>How proportional is proportional enough?</h2>
-<p>By default, the <code>propr</code> function creates 100 permutations of the original data set, optionally used later by <code>updateCutoffs</code> to permute the false discovery rate (FDR) for a set of proportionality cutoffs. This method works for all proportionality measures, and yields the same results for each call (because the random seed is set by the original <code>propr</code> function). In the example below, there is no false discovery across the range of cutoffs.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">updateCutoffs</span>(rho, <span class="dt">cutoff =</span>  <span class="kw">seq</span>(.<span class="dv">05</span>, <span class="fl">.95</span>, <span class="fl">.3</span>))</code></pre></div>
-<pre><code>## |------------(25%)----------(50%)----------(75%)----------|</code></pre>
+
+<p>By default, the <code>propr</code> function creates 100 permutations of the original data set, optionally used later by <code>updateCutoffs</code> to permute the false discovery rate (FDR) for a set of proportionality cutoffs. This method works for all proportionality measures. In the example below, there are no false discoveries across the range of cutoffs.</p>
+
+<pre><code class="r">updateCutoffs(rho, cutoff =  seq(.05, .95, .3))
+</code></pre>
+
+<pre><code>## Alert: Try parallelizing updateCutoffs with ncores &gt; 1.
+</code></pre>
+
+<pre><code>## |------------(25%)----------(50%)----------(75%)----------|
+</code></pre>
+
 <pre><code>## Not weighted and not alpha-transformed 
 ## @counts summary: 100 subjects by 4 features
 ## @logratio summary: 100 subjects by 4 features
@@ -151,118 +279,111 @@ phs &lt;-<span class="st"> </span><span class="kw">propr</span>(X, <span class="
 ## 2   0.35          0          2   0
 ## 3   0.65          0          2   0
 ## 4   0.95          0          2   0
-## See ?propr for object methods</code></pre>
-</div>
-<div id="subsetting-propr-objects" class="section level2">
+## See ?propr for object methods
+</code></pre>
+
+<p>Choose the largest cutoff that keeps the FDR below 0.05.</p>
+
 <h2>Subsetting propr objects</h2>
+
 <p>We have provided methods for indexing and subsetting objects belonging to the <code>propr</code> class. Using the familiar <code>[</code> method, we can efficiently index the proportionality matrix (i.e., the <code>@matrix</code> slot) based on an inequality operator and a reference value.</p>
-<p>In this first example, we use <code>[</code> to index the matrix by <span class="math inline">\(\rho &gt; .95\)</span>. This indexes the location of all values satisfying that inequality (i.e., in the lower left triangle of the matrix), and saves those indices to the <code>@pairs</code> slot. Indexing helps guide some of the bundled visualization methods in lieu of copy-on-modify subsetting. Note that indexing an already indexed object appends the new index to the previous index (via a union merge).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rho99 &lt;-<span class="st"> </span>rho[<span class="st">&quot;&gt;&quot;</span>, <span class="fl">.95</span>]
-rho99<span class="op">@</span>pairs</code></pre></div>
-<pre><code>## [1]  2 12</code></pre>
-<p>Alternatively, using the <code>subset</code> method, we can subset an <em>entire</em> <code>propr</code> object based on a vector of feature indices or names. However, this method does copy-on-modify the proportionality matrix, making it potentially unsuitable for large datasets.</p>
-<p>In this second example, we subset by the feature names “a” and “b”.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rhoab &lt;-<span class="st"> </span><span class="kw">subset</span>(rho, <span class="dt">select =</span> <span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>))
-rhoab<span class="op">@</span>matrix</code></pre></div>
+
+<p>In this first example, we use <code>[</code> to index the matrix by \(\rho > .95\). This indexes the location of all values satisfying that inequality (i.e., in the lower left triangle of the matrix), and saves those indices to the <code>@pairs</code> slot. Indexing helps guide some of the bundled visualization methods in lieu of copy-on-modify subsetting. Note that indexing an already indexed object appends the new index to the previous index (via a union merge).</p>
+
+<pre><code class="r">rho99 &lt;- rho[&quot;&gt;&quot;, .95]
+rho99@pairs
+</code></pre>
+
+<pre><code>## [1]  2 12
+</code></pre>
+
+<p>Alternatively, using the <code>subset</code> method, we can subset an <em>entire</em> <code>propr</code> object based on a vector of feature indices or names. However, this method does copy-on-modify the proportionality matrix, making it potentially unsuitable for large data sets.</p>
+
+<p>In this second example, we subset by the feature names &ldquo;a&rdquo; and &ldquo;b&rdquo;.</p>
+
+<pre><code class="r">rhoab &lt;- subset(rho, select = c(&quot;a&quot;, &quot;b&quot;))
+rhoab@matrix
+</code></pre>
+
 <pre><code>##           a         b
 ## a 1.0000000 0.9999151
-## b 0.9999151 1.0000000</code></pre>
-<p>The convenience function, <code>simplify</code>, can subset an <em>entire</em> <code>propr</code> object based on the index saved in its <code>@pairs</code> slot. This function converts the saved index into a paired list of coordinates and passes them along to the <code>subset</code> method. As such, this method does copy-on-modify the proportionality matrix, making it potentially unsuitable for large datasets. Unlike <code>subset</code>, <code>simplify</code> returns an object with the <code>@pairs</code> slot updated. Most users will find <code>simplify</code> preferable to <code>subset.</code></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">simplify</span>(rho99)</code></pre></div>
+## b 0.9999151 1.0000000
+</code></pre>
+
+<p>The convenience function, <code>simplify</code>, can subset an <em>entire</em> <code>propr</code> object based on the index saved in its <code>@pairs</code> slot. This function converts the saved index into a paired list of coordinates and passes them along to the <code>subset</code> method. As such, this method does copy-on-modify the proportionality matrix, making it potentially unsuitable for large data sets. Unlike <code>subset</code>, <code>simplify</code> returns an object with the <code>@pairs</code> slot updated. Most users will find <code>simplify</code> preferable to <code>subset.</code></p>
+
+<pre><code class="r">simplify(rho99)
+</code></pre>
+
 <pre><code>## Not weighted and not alpha-transformed 
 ## @counts summary: 100 subjects by 4 features
 ## @logratio summary: 100 subjects by 4 features
 ## @matrix summary: 4 features by 4 features
 ## @pairs summary: 2 feature pairs
 ## @fdr summary: iterations
-## See ?propr for object methods</code></pre>
-</div>
-<div id="visualizing-pairs" class="section level2">
-<h2>Visualizing pairs</h2>
-<p>Each feature belonging to a highly proportional data pair should have about the same log-ratio transformed abundance across all subjects. The method <code>plot</code> (or, equivalently, <code>smear</code>) provides a means by which to visually inspect whether this holds true. Since this function will plot all pairs unless indexed with the <code>[</code> method, we recommend the user first index or subset the <code>propr</code> object before plotting. A “noisy” relationship between some feature pairs could suggest that the proportionality cutoff is too lenient. We include this plot as a handy “sanity check” when working with high-dimensional datasets.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(rho99)</code></pre></div>
-<pre><code>## Alert: Generating plot using indexed feature pairs.</code></pre>
-<pre><code>## Registered S3 methods overwritten by 'ggplot2':
-##   method         from 
-##   [.quosures     rlang
-##   c.quosures     rlang
-##   print.quosures rlang</code></pre>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
-</div>
-<div id="computational-burden" class="section level2">
+## See ?propr for object methods
+</code></pre>
+
 <h2>Computational burden</h2>
-<p>High-throughput genomic sequencing has the ability to measure tens of thousands of features for each subject. Since calculating proportionality generates a matrix sized <span class="math inline">\(D^2\)</span>, this method uses a lot of RAM when applied to real biological datasets. To address this, <code>propr</code> harnesses the power of C++ (via the <code>Rcpp</code> package) to minimize the run-time and RAM overhead. Below, we provide a table that estimates the approximate amount of RAM needed to render a proportionality matrix based on the number of features studied. The user should account for up to 25% more RAM for subsequent <code>[</code> indexing and visualization.</p>
-<table>
-<thead>
-<tr class="header">
+
+<p>High-throughput genomic sequencing has the ability to measure tens of thousands of features for each subject. Since calculating proportionality generates a matrix sized \(D^2\), this method uses a lot of RAM when applied to real biological data sets. To address this, <code>propr</code> harnesses the power of C++ (via the <code>Rcpp</code> package) to minimize the run-time and RAM overhead. Below, we provide a table that estimates the approximate amount of RAM needed to render a proportionality matrix based on the number of features studied. The user should account for up to 25% more RAM for subsequent <code>[</code> indexing.</p>
+
+<table><thead>
+<tr>
 <th align="right">Features</th>
 <th align="right">Peak RAM (MiB)</th>
 </tr>
-</thead>
-<tbody>
-<tr class="odd">
+</thead><tbody>
+<tr>
 <td align="right">1000</td>
 <td align="right">8</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">2000</td>
 <td align="right">31</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">4000</td>
 <td align="right">123</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">8000</td>
 <td align="right">491</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">16000</td>
 <td align="right">1959</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">24000</td>
 <td align="right">4405</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">32000</td>
 <td align="right">7829</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="right">64000</td>
 <td align="right">31301</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="right">100000</td>
 <td align="right">76406</td>
 </tr>
-</tbody>
-</table>
-</div>
-<div id="limitations" class="section level2">
+</tbody></table>
+
 <h2>Limitations</h2>
-<p>Although we developed this package with biological count data in mind, compositional count data is not truly compositional in that count data contain integer values only. As such, measuring “Gene A” as <span class="math inline">\(1\)</span> in one subject and “Gene B” as <span class="math inline">\(2\)</span> in another subject (i.e., the feature vector <span class="math inline">\([1, 2]\)</span>) does not carry the same information as measuring “Gene A” as <span class="math inline">\(1000\)</span> in one subject and “Gene B” as <span class="math inline">\(2000\)</span> in another subject (i.e., the feature vector <span class="math inline">\([1000, 2000]\)</span>) due to how additive variation affects the relative abundance of small counts more than large counts (Quinn 2017). We advise the investigator to proceed with caution when analyzing low counts.</p>
-</div>
-<div id="references" class="section level2">
+
+<p>Although we developed this package with biological count data in mind, compositional count data is not truly compositional in that count data contain integer values only. As such, measuring &ldquo;Gene A&rdquo; as \(1\) in one subject and &ldquo;Gene B&rdquo; as \(2\) in another subject (i.e., the feature vector \([1, 2]\)) does not carry the same information as measuring &ldquo;Gene A&rdquo; as \(1000\) in one subject and &ldquo;Gene B&rdquo; as \(2000\) in another subject (i.e., the feature vector \([1000, 2000]\)) due to how additive variation affects the relative abundance of small counts more than large counts (Quinn 2017). We advise the investigator to proceed with caution when analyzing low counts.</p>
+
 <h2>References</h2>
-<ol style="list-style-type: decimal">
-<li><p>Erb, Ionas, and Cedric Notredame. “How Should We Measure Proportionality on Relative Gene Expression Data?” Theory in Biosciences = Theorie in Den Biowissenschaften 135, no. 1-2 (June 2016): 21-36. <a href="http://dx.doi.org/10.1007/s12064-015-0220-8" class="uri">http://dx.doi.org/10.1007/s12064-015-0220-8</a>.</p></li>
-<li><p>Lovell, David, Vera Pawlowsky-Glahn, Juan José Egozcue, Samuel Marguerat, and Jürg Bähler. “Proportionality: A Valid Alternative to Correlation for Relative Data.” PLoS Computational Biology 11, no. 3 (March 2015): e1004075. <a href="http://dx.doi.org/10.1371/journal.pcbi.1004075" class="uri">http://dx.doi.org/10.1371/journal.pcbi.1004075</a>.</p></li>
-<li><p>Quinn, Thomas P., Mark F. Richardson, David Lovell, and Tamsyn M. Crowley. “Propr: An R-Package for Identifying Proportionally Abundant Features Using Compositional Data Analysis.” Scientific Reports 7, no. 1 (November 24, 2017): 16252. <a href="https://doi.org/10.1038/s41598-017-16520-0" class="uri">https://doi.org/10.1038/s41598-017-16520-0</a>.</p></li>
+
+<ol>
+<li><p>Erb, Ionas, and Cedric Notredame. “How Should We Measure Proportionality on Relative Gene Expression Data?” Theory in Biosciences = Theorie in Den Biowissenschaften 135, no. 1-2 (June 2016): 21-36. <a href="http://dx.doi.org/10.1007/s12064-015-0220-8">http://dx.doi.org/10.1007/s12064-015-0220-8</a>.</p></li>
+<li><p>Lovell, David, Vera Pawlowsky-Glahn, Juan José Egozcue, Samuel Marguerat, and Jürg Bähler. “Proportionality: A Valid Alternative to Correlation for Relative Data.” PLoS Computational Biology 11, no. 3 (March 2015): e1004075. <a href="http://dx.doi.org/10.1371/journal.pcbi.1004075">http://dx.doi.org/10.1371/journal.pcbi.1004075</a>.</p></li>
+<li><p>Quinn, Thomas P., Mark F. Richardson, David Lovell, and Tamsyn M. Crowley. “Propr: An R-Package for Identifying Proportionally Abundant Features Using Compositional Data Analysis.” Scientific Reports 7, no. 1 (November 24, 2017): 16252. <a href="https://doi.org/10.1038/s41598-017-16520-0">https://doi.org/10.1038/s41598-017-16520-0</a>.</p></li>
 </ol>
-</div>
-
-
-
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 
 </body>
+
 </html>

@@ -15,8 +15,3 @@
 #  highprop <- rho[">", .95]@pairs
 #  rho@pairs <- setdiff(highprop, autoprop)
 
-## ---- eval = FALSE-------------------------------------------------------
-#  data(caneToad.counts)
-#  prop <- new("propr", counts = caneToad.counts, ivar = "iqlr")
-#  prop@logratio
-

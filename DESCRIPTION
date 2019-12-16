@@ -1,7 +1,7 @@
 Package: propr
 Title: Calculating Proportionality Between Vectors of Compositional
         Data
-Version: 4.1.6
+Version: 4.2.6
 URL: http://github.com/tpq/propr
 BugReports: http://github.com/tpq/propr/issues
 Authors@R: c(
@@ -9,7 +9,8 @@ Authors@R: c(
     person("David", "Lovell", email = "david.lovell@qut.edu.au", role = "aut"),
     person("Ionas", "Erb", email = "ionas.erb@crg.eu", role = "aut"),
     person("Anders", "Bilgrau", email = "anders.ellern.bilgrau@gmail.com", role = "ctb"),
-    person("Greg", "Gloor", email = "ggloor@uwo.ca", role = "ctb")
+    person("Greg", "Gloor", email = "ggloor@uwo.ca", role = "ctb"),
+    person("Ryan", "Moore", email = "rmm1047@gmail.com", role = "ctb")
     )
 Description: The bioinformatic evaluation of gene co-expression often begins with
     correlation-based analyses. However, correlation lacks validity when
@@ -22,21 +23,22 @@ Description: The bioinformatic evaluation of gene co-expression often begins wit
 License: GPL-2
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Encoding: UTF-8
 Depends: methods, R (>= 3.2.2)
 Imports: fastcluster, ggplot2, grDevices, igraph, Rcpp, stats, utils
 Suggests: ALDEx2, Biobase, cccrm, compositions, data.table, datasets,
-        grid, ggdendro, knitr, limma, plotly, reshape2, rgl, rmarkdown,
-        SDMTools, testthat, vegan
+        grid, ggdendro, knitr, limma, parallel, plotly, reshape2, rgl,
+        rmarkdown, SDMTools, testthat, vegan
 LinkingTo: Rcpp
 NeedsCompilation: yes
-Packaged: 2019-07-10 04:34:32 UTC; thom
+Packaged: 2019-12-16 03:02:22 UTC; thom
 Author: Thomas Quinn [aut, cre],
   David Lovell [aut],
   Ionas Erb [aut],
   Anders Bilgrau [ctb],
-  Greg Gloor [ctb]
+  Greg Gloor [ctb],
+  Ryan Moore [ctb]
 Maintainer: Thomas Quinn <contacttomquinn@gmail.com>
 Repository: CRAN
-Date/Publication: 2019-07-10 05:00:03 UTC
+Date/Publication: 2019-12-16 06:10:10 UTC

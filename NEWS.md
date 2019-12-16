@@ -1,3 +1,58 @@
+## propr 4.2.6
+---------------------
+* Fix new R version `class` bug where matrix is also an array
+
+## propr 4.2.5
+---------------------
+* New `posthoc` method
+    * Performs post-hoc testing for an ANOVA of >2 groups
+
+## propr 4.2.4
+---------------------
+* Update CITATION and README
+
+## propr 4.2.3
+---------------------
+* Update `propd` method
+    * `calculateTheta` extended to support ANOVA with >2 groups
+    * `propd` updated to allow >2 groups
+* Modified visualization tools
+    * Add checks for methods that require 2 groups
+    * `parallel` should support 3 groups
+
+## propr 4.2.2
+---------------------
+* Update `pra` method
+    * Fix bug introduced by `tryCatch`
+
+## propr 4.2.1
+---------------------
+* Revise vignettes for thesis publication
+
+## propr 4.2.0
+---------------------
+* Update `pra` method
+    * Add `tryCatch` to handle the Lapack routine 'dgesdd' error
+    * This error occurs when the SVD fails to converge
+
+## propr 4.1.9
+---------------------
+* Update `get` methods
+    * Pass `cutoff` and other arguments to `getColours`
+    * Have `getColours` show which feature is DE
+
+## propr 4.1.8
+---------------------
+* New `updateCutoffs.propr` parallel update
+    * Add parallel check and alternate computation for ncores > 1
+    * Pass ncores argument from `updateCutoffs` wrapper
+
+## propr 4.1.7
+---------------------
+* New `get` methods
+    * New `getNormTheta` calculates a per-feature theta against normalization factors
+    * New `getColour` colours pairs based on differential expression results
+
 ## propr 4.1.6
 ---------------------
 * Update `propr` methods
